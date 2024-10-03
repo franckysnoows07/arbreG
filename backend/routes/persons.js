@@ -7,10 +7,10 @@ const router = express.Router();
 router.use(requireAuth)
 
 //Get all person
-router.get('/', personController.getPerson)
+router.get('/', personController.getPersons)
 
 //get a single person
-router.get('/:id', personController.getOnePerson)
+router.get('/:id', personController.getPerson)
  //post a new person
 router.post('/', personController.createPerson)
 

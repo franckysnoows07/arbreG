@@ -50,7 +50,7 @@ userSchema.statics.login = async function ( email, password){
     if (!email || !password){
             throw Error('Champ requis')
     }
-    const user = await this.findOne({email})
+    const user = await this.findOne({ email })
 
     if(!user){
         throw Error('Email incorrecte')
@@ -65,4 +65,4 @@ userSchema.statics.login = async function ( email, password){
 
 }
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = mongoose.model('User', userSchema)

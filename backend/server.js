@@ -21,7 +21,7 @@ app.use((req, res, next) =>{
 
 //routes
 app.use('/api/persons', personRoutes)
-app.use('/api/users', userRoutes)
+app.use('/api/user', userRoutes)
 
 
 //connect to db
@@ -36,7 +36,5 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error)=>{
         console.log(error);
     })
-
-process.env 
 
 
