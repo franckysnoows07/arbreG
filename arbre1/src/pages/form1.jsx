@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Checkbox } from "@material-tailwind/react";
 const FormElementInput = () => {
   return (
     <section className='py-12 bg-gradient-to-b from-gray-100 to-amber-950 text-black'>
@@ -89,13 +89,29 @@ const FormElementInput = () => {
           </DefaultColumn>
 
           <DefaultColumn>
-            <Lieu />
+            <Vmort />
           </DefaultColumn>
 
           <DefaultColumn>
             <DeathDate />
           </DefaultColumn>
+
+          <DefaultColumn>
+            <MumName />
+          </DefaultColumn>
+
+          <DefaultColumn>
+            <Vmorte />
+          </DefaultColumn>
+
+          <DefaultColumn>
+            <DeathDat />
+          </DefaultColumn>
         </div>
+      </div>
+
+      <div className='button'>
+        <DarkRoundedButton/>
       </div>
     </section>
   )
@@ -291,19 +307,23 @@ const DefaultColumn = ({ children }) => {
     )
   }
 
-  const Lieu = () => {
+  const Vmort = () => {
     return (
       <>
         <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
           Lieu de naissance
         </label>
-        <input
-          type='text'
-          placeholder='LieuNais'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
+        <div className="flex px-8">
+          <div className="flex py-4 mr-8">
+            <h4>Mort</h4>
+            <Checkbox color="blue" defaultChecked />
+          </div>
+          <div className="flex py-4">
+            <h4>Vivant</h4>
+            <Checkbox color="blue" defaultChecked />
+          </div>
+         
+        </div>
       </>
     )
   }
@@ -322,5 +342,68 @@ const DefaultColumn = ({ children }) => {
             disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
         />
       </>
+    )
+  }
+
+  const MumName = () => {
+    return (
+      <>
+        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
+          Nom complet de la mere:
+        </label>
+        <input
+          type='text'
+          placeholder='DadName'
+          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
+          text-black outline-none transition focus:border-primary active:border-primary
+            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
+        />
+      </>
+    )
+  }
+
+  const Vmorte = () => {
+    return (
+      <>
+        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
+          Lieu de naissance
+        </label>
+        <div className="flex px-8">
+          <div className="flex py-4 mr-8">
+            <h4>Mort</h4>
+            <Checkbox color="blue" defaultChecked />
+          </div>
+          <div className="flex py-4">
+            <h4>Vivant</h4>
+            <Checkbox color="blue" defaultChecked />
+          </div>
+         
+        </div>
+      </>
+    )
+  }
+
+  const DeathDat = () => {
+    return (
+      <>
+        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
+          Date de deces
+        </label>
+        <input
+          type='date'
+          placeholder='Date de deces'
+          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
+          text-black outline-none transition focus:border-primary active:border-primary
+            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
+        />
+      </>
+    )
+  }
+
+  const DarkRoundedButton = () => {
+    return (
+      <button className='bg-dark dark:bg-amber-950 border-dark dark:border-amber-950 border rounded-full inline-flex items-center justify-center py-3 px-7 text-center text-base font-medium text-white hover:bg-body-color hover:border-body-color disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5'>
+        Submit
+      </button>
     )
   }
