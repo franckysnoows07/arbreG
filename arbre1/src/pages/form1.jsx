@@ -1,409 +1,404 @@
-import React from "react";
-import { Checkbox } from "@material-tailwind/react";
-const FormElementInput = () => {
+import React, { useState } from "react";
+
+const FormulaireInscription = () => {
+  const [formData, setFormData] = useState({
+    nomComplet: "",
+    nationalite: "",
+    etatCivil: "",
+    email: "",
+    telephone: "",
+    profession: "",
+    dateNaissance: "",
+    lieuNaissance: "",
+    genre: "",
+    nomPere: "",
+    etatPere: "vivant",
+    dateDecesPere: "",
+    nomMere: "",
+    etatMere: "vivant",
+    dateDecesMere: "",
+    enfants: "",
+    nombreEnfants: "",
+  });
+
+  const [formValid, setFormValid] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    validateForm();
+  };
+
+  const handleEtatChange = (e, parent) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.value === "mort") {
+      if (parent === "pere") {
+        setFormData({ ...formData, etatPere: "mort" });
+      } else {
+        setFormData({ ...formData, etatMere: "mort" });
+      }
+    }
+    validateForm();
+  };
+
+  const validateForm = () => {
+    const requiredFields = Object.keys(formData).filter((key) => formData[key] === "");
+    setFormValid(requiredFields.length === 0);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formValid) {
+      // Envoi des informations à la base de données 
+      console.log("Données envoyées :", formData);
+      // Réinitialiser le formulaire
+      handleReset();
+    }
+  };
+
+  const handleReset = () => {
+    setFormData({
+      nomComplet: "",
+      nationalite: "",
+      etatCivil: "",
+      email: "",
+      telephone: "",
+      profession: "",
+      dateNaissance: "",
+      lieuNaissance: "",
+      genre: "",
+      nomPere: "",
+      etatPere: "vivant",
+      dateDecesPere: "",
+      nomMere: "",
+      etatMere: "vivant",
+      dateDecesMere: "",
+      enfants: "",
+      nombreEnfants: "",
+    });
+  };
+
   return (
     <section className='py-12 bg-gradient-to-b from-gray-100 to-amber-950 text-black'>
-      <div>
-        <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
-      </div>
-      <div className="flex w-max">
-        <div className="flex ml-12 mr-20">
-          <div className="bg-gray-100 w-7 h-7 mr-1">
-            1 
+      <form onSubmit={handleSubmit}>
+        <div className="entete">
+        <h4 className="mb-4 text-xl font-bold text-center text-gray-900">Formulaire d'inscription</h4>
+          <div>
+          <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
           </div>
-          <h4>
-            Informations personnelles
-          </h4>
+          <div className="flex w-max">
+            <div className="flex ml-12 mr-20">
+              <div className="bg-gray-100 w-7 h-7 mr-1">
+                1 
+              </div>
+              <h4>
+                Informations personnelles
+              </h4>
+            </div>
+            <div className="flex ml-16 mr-20">
+              <div className="bg-gray-300 w-7 h-7 mr-1">
+                2 
+              </div>
+              <h4>
+                Photos de profil
+              </h4>
+            </div>
+            <div className="flex ml-16 mr-20">
+              <div className="bg-gray-300 w-7 h-7 mr-1">
+                3 
+              </div>
+              <h4>
+                Biographie
+              </h4>
+            </div>
+            <div className="flex ml-20 ">
+              <div className="bg-gray-300 w-7 h-7 mr-1">
+                4 
+              </div>
+              <h4>
+                Configuration du compte
+              </h4>
+            </div>
+            
+          </div><br />
+          <div>
+            <h4>Les champs marqués d'un astérisque * sont obligatoires</h4>
+          </div><br />
+          <div className="h-px bg-black"></div><br />
         </div>
-        <div className="flex ml-16 mr-20">
-          <div className="bg-gray-300 w-7 h-7 mr-1">
-            2 
+
+        {/* Principal grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-8">
+          {/* Première colonne */}
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Nom complet *</label>
+            <input
+              type="text"
+              name="nomComplet"
+              value={formData.nomComplet}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
           </div>
-          <h4>
-            Photos de profil
-          </h4>
-        </div>
-        <div className="flex ml-16 mr-20">
-          <div className="bg-gray-300 w-7 h-7 mr-1">
-            3 
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Nationalité *</label>
+            <select
+              name="nationalite"
+              value={formData.nationalite}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            >
+              <option value="">Choisir</option>
+              <option value="Benin">Bénin</option>
+              <option value="Togo">Togo</option>
+            </select>
           </div>
-          <h4>
-            Biographie
-          </h4>
-        </div>
-        <div className="flex ml-20 ">
-          <div className="bg-gray-300 w-7 h-7 mr-1">
-            4 
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">État civil *</label>
+            <select
+              name="etatCivil"
+              value={formData.etatCivil}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            >
+              <option value="">Choisir</option>
+              <option value="Marie">Marié</option>
+              <option value="Celibataire">Célibataire</option>
+            </select>
           </div>
-          <h4>
-            Configuration du compte
-          </h4>
+
+          {/* Deuxième colonne */}
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Email *</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Téléphone *</label>
+            <input
+              type="tel"
+              name="telephone"
+              value={formData.telephone}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Profession *</label>
+            <input
+              type="text"
+              name="profession"
+              value={formData.profession}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
+          </div>
+
+          {/* Troisième colonne */}
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Date de naissance *</label>
+            <input
+              type="date"
+              name="dateNaissance"
+              value={formData.dateNaissance}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Lieu de naissance *</label>
+            <input
+              type="text"
+              name="lieuNaissance"
+              value={formData.lieuNaissance}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Genre *</label>
+            <select
+              name="genre"
+              value={formData.genre}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            >
+              <option value="">Choisir</option>
+              <option value="Masculin">Masculin</option>
+              <option value="Feminin">Féminin</option>
+            </select>
+          </div>
+
+          {/* Quatrième rangée (commence avec 2 colonnes) */}
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Nom du père *</label>
+            <input
+              type="text"
+              name="nomPere"
+              value={formData.nomPere}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Statut du père *</label>
+            <div className="flex items-center space-x-4">
+              <label>
+                <input
+                  type="radio"
+                  name="etatPere"
+                  value="mort"
+                  checked={formData.etatPere === "mort"}
+                  onChange={(e) => handleEtatChange(e, "pere")}
+                  required
+                />
+                Mort
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="etatPere"
+                  value="vivant"
+                  checked={formData.etatPere === "vivant"}
+                  onChange={(e) => handleEtatChange(e, "pere")}
+                />
+                Vivant
+              </label>
+            </div>
+            {formData.etatPere === "mort" && (
+              <input
+                type="date"
+                name="dateDecesPere"
+                value={formData.dateDecesPere}
+                onChange={handleChange}
+                required
+                className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
+              />
+            )}
+          </div>
+
+          {/* Nom de la mère et son statut */}
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Nom de la mère *</label>
+            <input
+              type="text"
+              name="nomMere"
+              value={formData.nomMere}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            />
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Statut de la mère *</label>
+            <div className="flex items-center space-x-4">
+              <label>
+                <input
+                  type="radio"
+                  name="etatMere"
+                  value="mort"
+                  checked={formData.etatMere === "mort"}
+                  onChange={(e) => handleEtatChange(e, "mere")}
+                  required
+                />
+                Mort
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="etatMere"
+                  value="vivant"
+                  checked={formData.etatMere === "vivant"}
+                  onChange={(e) => handleEtatChange(e, "mere")}
+                />
+                Vivant
+              </label>
+            </div>
+            {formData.etatMere === "mort" && (
+              <input
+                type="date"
+                name="dateDecesMere"
+                value={formData.dateDecesMere}
+                onChange={handleChange}
+                required
+                className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
+              />
+            )}
+          </div>
+
+          {/* Enfants */}
+          <div className="flex flex-col mb-4">
+            <label className="font-bold text-gray-700">Avez-vous des enfants ? *</label>
+            <select
+              name="enfants"
+              value={formData.enfants}
+              onChange={handleChange}
+              required
+              className="bg-gray-200 border py-2 px-4 rounded-md"
+            >
+              <option value="">Choisir</option>
+              <option value="Oui">Oui</option>
+              <option value="Non">Non</option>
+            </select>
+          </div>
+
+          {formData.enfants === "Oui" && (
+            <div className="flex flex-col mb-4">
+              <label className="font-bold text-gray-700">Nombre d'enfants *</label>
+              <input
+                type="number"
+                name="nombreEnfants"
+                value={formData.nombreEnfants}
+                onChange={handleChange}
+                required
+                className="bg-gray-200 border py-2 px-4 rounded-md"
+              />
+            </div>
+          )}
         </div>
-        
-      </div><br />
-      <div>
-        <h4>Les champs marqués d'un astérisque * sont obligatoires</h4>
-      </div>
-      <div className="h-px bg-black"></div><br />
-      
-      <div className='container'>
-        <div className='-mx-4 flex flex-wrap'>
-          <DefaultColumn>
-            <NomComplet />
-          </DefaultColumn>
 
-          <DefaultColumn>
-            <Nationalite />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <SituationMatriomoniale />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <Email />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <PhoneNumber />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <Profession />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <Birthday />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <LieuNais />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <Genre />
-          </DefaultColumn>
-          
-          <DefaultColumn>
-            <DadName />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <Vmort />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <DeathDate />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <MumName />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <Vmorte />
-          </DefaultColumn>
-
-          <DefaultColumn>
-            <DeathDat />
-          </DefaultColumn>
+        {/* Boutons de soumission et d'annulation */}
+        <div className="flex justify-center space-x-20 mt-8">
+          <button
+            type="button"
+            onClick={handleReset}
+            className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            disabled={!formValid}
+            className={`py-2 px-4 rounded-md text-white ${formValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"}`}
+          >
+            Continuer
+          </button>
         </div>
-      </div>
-
-      <div className='button'>
-        <DarkRoundedButton/>
-      </div>
+      </form>
     </section>
-  )
+  );
 };
 
-export default FormElementInput;
-
-const DefaultColumn = ({ children }) => {
-  return (
-    <div className='w-full px-4 md:w-1/2 lg:w-1/3'>
-      <div className='mb-4 mr-8 ml-8'>{children}</div>
-    </div>
-
-    
-  )
-}
-
-  const NomComplet = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Nom complet:
-        </label>
-        <input
-          type='text'
-          placeholder='Your name'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const Nationalite = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Nationalite
-        </label>
-        <div className='relative z-20'>
-          <select className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'>
-            <option value='' className='dark:bg-dark-2'>Benin</option>
-            <option value='' className='dark:bg-dark-2'>Togo</option>
-            <option value='' className='dark:bg-dark-2'>Chine</option>
-          </select>
-          <span className='absolute right-4 top-1/2 z-10 mt-[-2px] h-[10px] w-[10px] -translate-y-1/2 rotate-45 border-r-2 border-b-2 border-body-color'></span>
-        </div>
-      </>
-    )
-  }
-
-  const SituationMatriomoniale = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Situation Matrimoniale
-        </label>
-        <div className='relative z-20'>
-          <select className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'>
-            <option value='' className='dark:bg-dark-2'>Marié</option>
-            <option value='' className='dark:bg-dark-2'>Célibataire</option>
-            <option value='' className='dark:bg-dark-2'>Autre</option>
-          </select>
-          <span className='absolute right-4 top-1/2 z-10 mt-[-2px] h-[10px] w-[10px] -translate-y-1/2 rotate-45 border-r-2 border-b-2 border-body-color'></span>
-        </div>
-      </>
-    )
-  }
-
-  const Email = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Email
-        </label>
-        <input
-          type='text'
-          placeholder='Your mail'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const PhoneNumber = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Numero de Telephone
-        </label>
-        <input
-          type='int'
-          placeholder='Your number'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const Profession = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Profession
-        </label>
-        <input
-          type='text'
-          placeholder='Your Profession'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const Birthday = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Date de naissance:
-        </label>
-        <input
-          type='date'
-          placeholder='Birthday'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const LieuNais = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Lieu de naissance
-        </label>
-        <input
-          type='text'
-          placeholder='LieuNais'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const Genre = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Genre
-        </label>
-        <div className='relative z-20'>
-          <select className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'>
-            <option value='' className='dark:bg-dark-2'>Masculin</option>
-            <option value='' className='dark:bg-dark-2'>Feminin</option>
-            <option value='' className='dark:bg-dark-2'>Autre</option>
-          </select>
-          <span className='absolute right-4 top-1/2 z-10 mt-[-2px] h-[10px] w-[10px] -translate-y-1/2 rotate-45 border-r-2 border-b-2 border-body-color'></span>
-        </div>
-      </>
-    )
-  }
-  const DadName = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Nom complet du pere:
-        </label>
-        <input
-          type='text'
-          placeholder='DadName'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const Vmort = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Lieu de naissance
-        </label>
-        <div className="flex px-8">
-          <div className="flex py-4 mr-8">
-            <h4>Mort</h4>
-            <Checkbox color="blue" defaultChecked />
-          </div>
-          <div className="flex py-4">
-            <h4>Vivant</h4>
-            <Checkbox color="blue" defaultChecked />
-          </div>
-         
-        </div>
-      </>
-    )
-  }
-
-  const DeathDate = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Date de deces
-        </label>
-        <input
-          type='date'
-          placeholder='Date de deces'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const MumName = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Nom complet de la mere:
-        </label>
-        <input
-          type='text'
-          placeholder='DadName'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const Vmorte = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Lieu de naissance
-        </label>
-        <div className="flex px-8">
-          <div className="flex py-4 mr-8">
-            <h4>Mort</h4>
-            <Checkbox color="blue" defaultChecked />
-          </div>
-          <div className="flex py-4">
-            <h4>Vivant</h4>
-            <Checkbox color="blue" defaultChecked />
-          </div>
-         
-        </div>
-      </>
-    )
-  }
-
-  const DeathDat = () => {
-    return (
-      <>
-        <label className='mb-[10px] block text-base font-medium text-dark dark:text-black text-left'>
-          Date de deces
-        </label>
-        <input
-          type='date'
-          placeholder='Date de deces'
-          className='w-full bg-gray-200 border border-stroke dark:border-black py-[10px] px-5
-          text-black outline-none transition focus:border-primary active:border-primary
-            disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2'
-        />
-      </>
-    )
-  }
-
-  const DarkRoundedButton = () => {
-    return (
-      <button className='bg-dark dark:bg-amber-950 border-dark dark:border-amber-950 border rounded-full inline-flex items-center justify-center py-3 px-7 text-center text-base font-medium text-white hover:bg-body-color hover:border-body-color disabled:bg-gray-3 disabled:border-gray-3 disabled:text-dark-5'>
-        Submit
-      </button>
-    )
-  }
+export default FormulaireInscription;
