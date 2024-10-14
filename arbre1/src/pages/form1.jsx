@@ -13,10 +13,10 @@ const FormulaireInscription = () => {
     lieuNaissance: "",
     genre: "",
     nomPere: "",
-    etatPere: "vivant",
+    etatPere: "",
     dateDecesPere: "",
     nomMere: "",
-    etatMere: "vivant",
+    etatMere: "",
     dateDecesMere: "",
     enfants: "",
     nombreEnfants: "",
@@ -46,9 +46,12 @@ const FormulaireInscription = () => {
     const requiredFields = Object.keys(formData).filter((key) => {
       // Exclure dateDecesPere, dateDecesMere, et nombreEnfants de la validation
       if (
+        key === "etatPere" ||
+        key === "etatMere" ||
+        key === "enfants" ||
         key === "dateDecesPere" ||
         key === "dateDecesMere" ||
-        (key === "nombreEnfants" && formData.enfants === "Non")
+        key === "nombreEnfants"   
       ) {
         return false;
       }
@@ -274,7 +277,7 @@ const FormulaireInscription = () => {
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Statut du père *</label>
+            <label className="font-bold text-gray-700">Statut du père</label>
             <div className="flex items-center space-x-4">
               <label>
                 <input
@@ -323,7 +326,7 @@ const FormulaireInscription = () => {
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Statut de la mère *</label>
+            <label className="font-bold text-gray-700">Statut de la mère</label>
             <div className="flex items-center space-x-4">
               <label>
                 <input
