@@ -8,6 +8,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import Bio from './pages/pprofil';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<FormElementInput/>}/>
+        <Route path="/profil" element={<Bio/>}/>
       </Routes>
     </BrowserRouter>
     </div>
