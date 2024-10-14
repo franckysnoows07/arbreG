@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
 const FormulaireInscription = () => {
   const [formData, setFormData] = useState({
@@ -41,7 +42,18 @@ const FormulaireInscription = () => {
   };
 
   const validateForm = () => {
-    const requiredFields = Object.keys(formData).filter((key) => formData[key] === "");
+    // Liste des champs requis pour la validation
+    const requiredFields = Object.keys(formData).filter((key) => {
+      // Exclure dateDecesPere, dateDecesMere, et nombreEnfants de la validation
+      if (
+        key === "dateDecesPere" ||
+        key === "dateDecesMere" ||
+        (key === "nombreEnfants" && formData.enfants === "Non")
+      ) {
+        return false;
+      }
+      return formData[key] === "";
+    });
     setFormValid(requiredFields.length === 0);
   };
 
@@ -292,7 +304,6 @@ const FormulaireInscription = () => {
                 name="dateDecesPere"
                 value={formData.dateDecesPere}
                 onChange={handleChange}
-                required
                 className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
               />
             )}
@@ -342,7 +353,6 @@ const FormulaireInscription = () => {
                 name="dateDecesMere"
                 value={formData.dateDecesMere}
                 onChange={handleChange}
-                required
                 className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
               />
             )}
@@ -372,7 +382,6 @@ const FormulaireInscription = () => {
                 name="nombreEnfants"
                 value={formData.nombreEnfants}
                 onChange={handleChange}
-                required
                 className="bg-gray-200 border py-2 px-4 rounded-md"
               />
             </div>
@@ -388,13 +397,15 @@ const FormulaireInscription = () => {
           >
             Annuler
           </button>
-          <button
-            type="submit"
-            disabled={!formValid}
-            className={`py-2 px-4 rounded-md text-white ${formValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"}`}
-          >
-            Continuer
-          </button>
+          <Link to="/pprofil">
+            <button
+              type="submit"
+              disabled={!formValid}
+              className={`py-2 px-4 rounded-md text-white ${formValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"}`}
+            >
+              Continuer
+            </button>
+          </Link>
         </div>
       </form>
     </section>
