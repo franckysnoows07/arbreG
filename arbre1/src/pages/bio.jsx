@@ -51,8 +51,8 @@ const Bio = () => {
               <div className="bg-gray-300 w-7 h-7 mr-1">3</div>
               <h4>Biographie</h4>
             </div>
-            <div className="flex ml-20">
-              <div className="bg-gray-300 w-7 h-7 mr-1">4</div>
+            <div className="flex ml-16 mr-20">
+              <div className="bg-gray-300 w-7 h-7 ">4</div>
               <h4>Configuration du compte</h4>
             </div>
           </div><br />
@@ -72,7 +72,7 @@ const Bio = () => {
             onChange={handleChange}
             rows="6"
             required
-            className="bg-gray-200 border py-2 px-4 rounded-md w-full"
+            className="bg-gray-200 border h-72 py-2 px-4 rounded-md w-full"
             placeholder="Écrivez votre biographie ici..."
           />
         </div>

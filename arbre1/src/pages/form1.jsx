@@ -110,7 +110,7 @@ const FormulaireInscription = () => {
                 Biographie
               </h4>
             </div>
-            <div className="flex ml-20 ">
+            <div className="flex ml-16 mr-20">
               <div className="bg-gray-300 w-7 h-7 mr-1">
                 4 
               </div>
