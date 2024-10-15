@@ -33,21 +33,6 @@ const getPerson = async (req, res) => {
 const createPerson = async (req, res) => {
     const { firstName, lastName, fatherFullname, motherFullname, birthDate, state, email, gender, photo_url } = req.body;
 
-    let emptyFields = []
-
-    if(!firstName){
-        emptyFields.push('firstname')
-    }
-    if(!lastName){
-        emptyFields.push('lastname')
-    }
-    if(!fatherFullname){
-        emptyFields.push('fatherfullname')
-    }
-    if(!motherFullname){
-        emptyFields.push('motherfullname')
-    }
-
 
 
     try {
