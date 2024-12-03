@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Bio from './pages/bio';
 import P_Profil from './pages/pprofil';
+import Conf from './pages/conf';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<FormElementInput/>}/>
         <Route path="/bio" element={<Bio/>}/>
         <Route path="/pprofil" element={<P_Profil/>}/>
+        <Route path="/conf" element={<Conf/>}/>
       </Routes>
     </BrowserRouter>
     </div>

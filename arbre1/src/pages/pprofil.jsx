@@ -60,11 +60,34 @@ function P_Profil() {
     };
 
     return (
-        <section className="py-12 bg-gradient-to-b from-gray-100 to-amber-950 text-black">
+        <section className="py-12 bg-orange-50 text-amber-950">
             <form onSubmit={handleSubmit}>
                 <div className="entete">
-                    <h4 className="mb-4 text-xl font-bold text-center text-gray-900">Formulaire d'inscription</h4>
-                    <div>
+                    <div className="container mx-auto px-4 flex items-center justify-between mb-4">
+                        <img
+                            src="src\assets\logo.png"
+                            alt="image"
+                            className="w-30 h-20 ml-8"
+                        
+                        />
+                        <div className="hidden md:flex space-x-8 text-lg">
+                        <a href="#accueil" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                            Accueil
+                        </a>
+                        <a href="#connection" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                            Connection
+                        </a>
+                        <a href="#enregistrement" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                            Enregistrement
+                        </a>
+                        </div>
+
+                        <i class="fa-sharp fa-solid fa-globe"></i>
+                    </div>
+
+                    <div className="h-1 bg-amber-950"></div><br />
+
+                    <div className="text-left ml-12 text-xl ">
                         <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
                     </div>
                     <div className="flex w-max">
@@ -85,15 +108,11 @@ function P_Profil() {
                             <h4>Configuration du compte</h4>
                         </div>
                     </div><br />
-                    <div>
-                        <h4>Les champs marqués d'un astérisque * sont obligatoires</h4>
-                    </div><br />
-                    <div className="h-px bg-black"></div><br />
                 </div>
 
                 {/* Zone pour la photo de profil (upload ou drag-and-drop) */}
                 <div
-                    className={`flex flex-col items-center justify-center mb-4 px-8 py-10 relative border-4 border-dashed rounded-xl transition-colors duration-200 ease-in-out ${dragActive ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-gray-100"}`}
+                    className={`flex flex-col items-center justify-center mb-4 px-8 py-10 relative border-4 border-dashed rounded-xl transition-colors duration-200 ease-in-out ${dragActive ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-stone-300"}`}
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
@@ -123,24 +142,26 @@ function P_Profil() {
                     </label>
                 </div>
 
-                {/* Boutons de soumission et d'annulation */}
-                <div className="flex justify-center space-x-20 mt-8">
+                {/* Boutons de soumission et d'annulation */}               
+                <div className="flex justify-center space-x-96 mt-8">
+                <Link to="/">
                     <button
                         type="button"
                         onClick={handleReset}
-                        className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        className="py-2 px-4 bg-orange-50 text-amber-950 border border-amber-950 text-xl rounded-md hover:bg-amber-950 hover:text-orange-50"
                     >
-                        Annuler
+                        Retour
                     </button>
-                    <Link to="/bio">
-                        <button
-                            type="submit"
-                            disabled={!formValid} // Désactiver le bouton si la photo de profil n'est pas sélectionnée
-                            className={`py-2 px-4 rounded-md text-white ${formValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"}`}
-                        >
-                            Continuer
+                </Link>
+                <Link to="/bio">
+                    <button
+                    type="submit"
+                    className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
+                    disabled={!formValid}
+                    >
+                    Continuer
                     </button>
-                    </Link>
+                </Link>
                 </div>
             </form>
         </section>

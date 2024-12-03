@@ -13,11 +13,9 @@ const FormulaireInscription = () => {
     lieuNaissance: "",
     genre: "",
     nomPere: "",
-    etatPere: "",
-    dateDecesPere: "",
+    prenomPere: "",
     nomMere: "",
-    etatMere: "",
-    dateDecesMere: "",
+    prenomMere: "",
     enfants: "",
     nombreEnfants: "",
   });
@@ -25,48 +23,32 @@ const FormulaireInscription = () => {
   const [formValid, setFormValid] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    validateForm();
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    validateForm({ ...formData, [name]: value }); // Valider les données après l'update
   };
 
-  const handleEtatChange = (e, parent) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.value === "mort") {
-      if (parent === "pere") {
-        setFormData({ ...formData, etatPere: "mort" });
-      } else {
-        setFormData({ ...formData, etatMere: "mort" });
+  const validateForm = (data) => {
+    const requiredFields = ["nomComplet", "nationalite", "etatCivil", "email", "telephone", "profession", "dateNaissance", "lieuNaissance", "genre", "nomPere", "nomMere"];
+    const isValid = requiredFields.every((field) => data[field].trim() !== "");
+
+    if (data.enfants === "Oui") {
+      if (!data.nombreEnfants || data.nombreEnfants <= 0) {
+        setFormValid(false);
+        return;
       }
     }
-    validateForm();
-  };
 
-  const validateForm = () => {
-    // Liste des champs requis pour la validation
-    const requiredFields = Object.keys(formData).filter((key) => {
-      // Exclure dateDecesPere, dateDecesMere, et nombreEnfants de la validation
-      if (
-        key === "etatPere" ||
-        key === "etatMere" ||
-        key === "enfants" ||
-        key === "dateDecesPere" ||
-        key === "dateDecesMere" ||
-        key === "nombreEnfants"   
-      ) {
-        return false;
-      }
-      return formData[key] === "";
-    });
-    setFormValid(requiredFields.length === 0);
+    setFormValid(isValid);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formValid) {
-      // Envoi des informations à la base de données 
       console.log("Données envoyées :", formData);
-      // Réinitialiser le formulaire
       handleReset();
+    } else {
+      console.log("Formulaire incomplet ou incorrect");
     }
   };
 
@@ -82,25 +64,48 @@ const FormulaireInscription = () => {
       lieuNaissance: "",
       genre: "",
       nomPere: "",
-      etatPere: "vivant",
-      dateDecesPere: "",
+      prenomPere: "",
       nomMere: "",
-      etatMere: "vivant",
-      dateDecesMere: "",
+      prenomMere: "",
       enfants: "",
       nombreEnfants: "",
     });
+    setFormValid(false);
   };
 
   return (
-    <section className='py-12 bg-gradient-to-b from-gray-100 to-amber-950 text-black'>
+    <section className='py-10 bg-orange-50 text-amber-950'>
       <form onSubmit={handleSubmit}>
         <div className="entete">
-        <h4 className="mb-4 text-xl font-bold text-center text-gray-900">Formulaire d'inscription</h4>
-          <div>
-          <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
+          <div className="container mx-auto px-4 flex items-center justify-between mb-4">
+            <img
+                  src="src\assets\logo.png"
+                  alt="image"
+                  className="w-30 h-20 ml-8"
+                
+                />
+            <div className="hidden md:flex space-x-8 text-lg">
+              <a href="#accueil" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                Accueil
+              </a>
+              <a href="#connection" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                Connection
+              </a>
+              <a href="#enregistrement" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                Enregistrement
+              </a>
+            </div>
+
+            <i class="fa-sharp fa-solid fa-globe"></i>
           </div>
-          <div className="flex w-max">
+
+          <div className="h-1 bg-amber-950"></div><br />
+
+          <div className="text-left ml-12 text-xl ">
+            <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
+          </div>
+
+          <div className="flex w-max text-xm">
             <div className="flex ml-12 mr-20">
               <div className="bg-gray-100 w-7 h-7 mr-1">
                 1 
@@ -134,36 +139,35 @@ const FormulaireInscription = () => {
               </h4>
             </div>
             
-          </div><br />
-          <div>
-            <h4>Les champs marqués d'un astérisque * sont obligatoires</h4>
-          </div><br />
-          <div className="h-px bg-black"></div><br />
+          </div>
+          
         </div>
+
+        <div className="ml-8 mr-8 h-px bg-amber-950"></div><br />
 
         {/* Principal grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-8">
           {/* Première colonne */}
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Nom complet *</label>
+            <label className="font-bold text-amber-950">Nom complet *</label>
             <input
               type="text"
               name="nomComplet"
               value={formData.nomComplet}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Nationalité *</label>
+            <label className="font-bold text-amber-950">Nationalité *</label>
             <select
               name="nationalite"
               value={formData.nationalite}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             >
               <option value="">Choisir</option>
               <option value="Benin">Bénin</option>
@@ -172,13 +176,13 @@ const FormulaireInscription = () => {
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">État civil *</label>
+            <label className="font-bold text-amber-950">État civil *</label>
             <select
               name="etatCivil"
               value={formData.etatCivil}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             >
               <option value="">Choisir</option>
               <option value="Marie">Marié</option>
@@ -188,74 +192,74 @@ const FormulaireInscription = () => {
 
           {/* Deuxième colonne */}
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Email *</label>
+            <label className="font-bold text-amber-950">Email *</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Téléphone *</label>
+            <label className="font-bold text-amber-950">Téléphone *</label>
             <input
               type="tel"
               name="telephone"
               value={formData.telephone}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Profession *</label>
+            <label className="font-bold text-amber-950">Profession *</label>
             <input
               type="text"
               name="profession"
               value={formData.profession}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           {/* Troisième colonne */}
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Date de naissance *</label>
+            <label className="font-bold text-amber-950">Date de naissance *</label>
             <input
               type="date"
               name="dateNaissance"
               value={formData.dateNaissance}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Lieu de naissance *</label>
+            <label className="font-bold text-amber-950">Lieu de naissance *</label>
             <input
               type="text"
               name="lieuNaissance"
               value={formData.lieuNaissance}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Genre *</label>
+            <label className="font-bold text-amber-950">Genre *</label>
             <select
               name="genre"
               value={formData.genre}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             >
               <option value="">Choisir</option>
               <option value="Masculin">Masculin</option>
@@ -265,111 +269,63 @@ const FormulaireInscription = () => {
 
           {/* Quatrième rangée (commence avec 2 colonnes) */}
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Nom du père *</label>
+            <label className="font-bold text-amber-950">Nom du père *</label>
             <input
               type="text"
               name="nomPere"
               value={formData.nomPere}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Statut du père</label>
-            <div className="flex items-center space-x-4">
-              <label>
-                <input
-                  type="radio"
-                  name="etatPere"
-                  value="mort"
-                  checked={formData.etatPere === "mort"}
-                  onChange={(e) => handleEtatChange(e, "pere")}
-                  required
-                />
-                Mort
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="etatPere"
-                  value="vivant"
-                  checked={formData.etatPere === "vivant"}
-                  onChange={(e) => handleEtatChange(e, "pere")}
-                />
-                Vivant
-              </label>
-            </div>
-            {formData.etatPere === "mort" && (
-              <input
-                type="date"
-                name="dateDecesPere"
-                value={formData.dateDecesPere}
-                onChange={handleChange}
-                className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
-              />
-            )}
+            <label className="font-bold text-amber-950">Prenom du pere *</label>
+            <input
+              type="text"
+              name="prenomPere"
+              value={formData.prenomPere}
+              onChange={handleChange}
+              required
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
+            />
           </div>
 
-          {/* Nom de la mère et son statut */}
+          {/* Nom et prenom de la mere*/}
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Nom de la mère *</label>
+            <label className="font-bold text-amber-950">Nom de la mère *</label>
             <input
               type="text"
               name="nomMere"
               value={formData.nomMere}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             />
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Statut de la mère</label>
-            <div className="flex items-center space-x-4">
-              <label>
-                <input
-                  type="radio"
-                  name="etatMere"
-                  value="mort"
-                  checked={formData.etatMere === "mort"}
-                  onChange={(e) => handleEtatChange(e, "mere")}
-                  required
-                />
-                Mort
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="etatMere"
-                  value="vivant"
-                  checked={formData.etatMere === "vivant"}
-                  onChange={(e) => handleEtatChange(e, "mere")}
-                />
-                Vivant
-              </label>
-            </div>
-            {formData.etatMere === "mort" && (
-              <input
-                type="date"
-                name="dateDecesMere"
-                value={formData.dateDecesMere}
-                onChange={handleChange}
-                className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
-              />
-            )}
-          </div>
+            <label className="font-bold text-amber-950">Prenom de la mere</label>
+            <input
+              type="text"
+              name="prenomMere"
+              value={formData.prenomMere}
+              onChange={handleChange}
+              required
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
+            />
+          </div><br />
 
           {/* Enfants */}
           <div className="flex flex-col mb-4">
-            <label className="font-bold text-gray-700">Avez-vous des enfants ? *</label>
+            <label className="font-bold text-amber-950">Avez-vous des enfants ? *</label>
             <select
               name="enfants"
               value={formData.enfants}
               onChange={handleChange}
               required
-              className="bg-gray-200 border py-2 px-4 rounded-md"
+              className="bg-stone-300 border py-2 px-4 border-amber-950"
             >
               <option value="">Choisir</option>
               <option value="Oui">Oui</option>
@@ -379,32 +335,32 @@ const FormulaireInscription = () => {
 
           {formData.enfants === "Oui" && (
             <div className="flex flex-col mb-4">
-              <label className="font-bold text-gray-700">Nombre d'enfants *</label>
+              <label className="font-bold text-amber-950">Nombre d'enfants *</label>
               <input
                 type="number"
                 name="nombreEnfants"
                 value={formData.nombreEnfants}
                 onChange={handleChange}
-                className="bg-gray-200 border py-2 px-4 rounded-md"
+                className="bg-stone-300 border py-2 px-4 border-amber-950"
               />
             </div>
           )}
         </div>
 
         {/* Boutons de soumission et d'annulation */}
-        <div className="flex justify-center space-x-20 mt-8">
+        <div className="flex justify-center space-x-96 mt-8">
           <button
             type="button"
             onClick={handleReset}
-            className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600"
+            className="py-2 px-4 bg-orange-50 text-amber-950 border border-amber-950 text-xl rounded-md hover:bg-amber-950 hover:text-orange-50"
           >
             Annuler
           </button>
           <Link to="/pprofil">
             <button
               type="submit"
+              className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
               disabled={!formValid}
-              className={`py-2 px-4 rounded-md text-white ${formValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"}`}
             >
               Continuer
             </button>
