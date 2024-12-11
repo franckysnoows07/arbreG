@@ -20,16 +20,11 @@ app.use((req, res, next) =>{
 })
 
 //routes
-<<<<<<< Updated upstream
-app.use('/api/persons', personRoutes)
-app.use('/api/user', userRoutes)
-=======
 app.use('/api/people', personRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/relationships', relationshipRoutes)
 app.use('/api/familytrees', familytreeRoutes)
 app.use('/api/familymembers', familymemberRoutes)
->>>>>>> Stashed changes
 
 
 //connect to db

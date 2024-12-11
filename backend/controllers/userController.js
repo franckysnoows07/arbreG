@@ -77,8 +77,3 @@ module.exports ={
     signUp,
     signIn
 }
-<<<<<<< Updated upstream
-
-module.exports = {signupUser, loginUser}
-=======
->>>>>>> Stashed changes

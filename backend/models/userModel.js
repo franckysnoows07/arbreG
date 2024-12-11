@@ -40,17 +40,10 @@ userSchema.statics.login = async function(email, password) {
     if (!email || !password) {
       throw Error('All fields must be filled')
     }
-<<<<<<< Updated upstream
     const user = await this.findOne({ email })
 
     if(!user){
         throw Error('Email incorrecte')
-=======
-  
-    const user = await this.findOne({ email })
-    if (!user) {
-      throw Error('Incorrect email')
->>>>>>> Stashed changes
     }
   
     const match = await bcrypt.compare(password, user.password)
@@ -59,12 +52,5 @@ userSchema.statics.login = async function(email, password) {
     }
   
     return user
-<<<<<<< Updated upstream
-
-}
-
-module.exports = mongoose.model('User', userSchema)
-=======
   }
 module.exports = mongoose.model('User',userSchema)
->>>>>>> Stashed changes
