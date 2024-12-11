@@ -8,17 +8,10 @@ const passport = require('passport')
 router.use(protect)
 
 //Get all person
-<<<<<<< Updated upstream
-router.get('/', personController.getPersons)
-
-//get a single person
-router.get('/:id', personController.getPerson)
-=======
 router.get('/', getPeople)
 
 //get a single person
 router.get('/:id', authorizeViewerOrCreator, getPerson)
->>>>>>> Stashed changes
  //post a new person
 router.post('/', createPerson)
 

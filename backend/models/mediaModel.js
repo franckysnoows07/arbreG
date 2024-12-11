@@ -1,11 +1,6 @@
-<<<<<<< Updated upstream
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-=======
 const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
->>>>>>> Stashed changes
 
 const mediaSchema = new Schema({
     url: { 
@@ -33,13 +28,6 @@ const mediaSchema = new Schema({
         ref: 'User', 
         required: true 
     }
-<<<<<<< Updated upstream
-}, { timestamps: true });
-
-module.exports = mongoose.model('Media', mediaSchema);
-
-=======
 }, {timestamps: true})
 
 module.exports = mongoose.model('Media', mediaSchema)
->>>>>>> Stashed changes

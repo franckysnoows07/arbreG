@@ -63,15 +63,33 @@ const FormulaireInscription = () => {
     setFormValid(requiredFields.length === 0);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (formValid) {
-      // Envoi des informations à la base de données 
-      console.log("Données envoyées :", formData);
-      // Réinitialiser le formulaire
-      handleReset();
+      try{
+        const response = await fetch('http://localhost:4000/api/people/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+                console.log('Server response:', data);
+                handleReset();
+        } else{
+          console.error('Error in submission:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error while submitting form:', error);
+      }
+    } else {
+      console.log('Form is not valid');
     }
   };
+
 
   const handleReset = () => {
     setFormData({
@@ -440,6 +458,13 @@ const FormulaireInscription = () => {
             className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600"
           >
             Annuler
+          </button>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600"
+          >
+            Enregistrer
           </button>
           <Link to="/pprofil">
             <button

@@ -21,7 +21,7 @@ const personSchema = new mongoose.Schema({
     dod: {type: Date},
     phone:{type: String},
     child:{type: String},
-    nbchild:{type: Int32Array},
+    nbchild:{type: String},
     createdBy:{type: mongoose.Schema.Types.ObjectId, ref:'User', required: true},
     viewers: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}],
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

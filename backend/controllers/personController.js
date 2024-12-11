@@ -25,6 +25,7 @@ const createPerson = async (req, res) => {
         })
         await person.save()
         res.status(201).json(person);
+        console.log(person);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
