@@ -32,13 +32,37 @@ const Bio = () => {
   };
 
   return (
-    <section className="py-12 bg-gradient-to-b from-gray-100 to-amber-950 text-black">
+    <section className="py-12 bg-orange-50 text-amber-950">
       <form onSubmit={handleSubmit}>
         <div className="entete">
-          <h4 className="mb-4 text-xl font-bold text-center text-gray-900">Formulaire d'inscription</h4>
-          <div>
-            <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
+        <div className="container mx-auto px-4 flex items-center justify-between mb-4">
+              <img
+                  src="src\assets\logo.png"
+                  alt="image"
+                  className="w-30 h-20 ml-8"
+              
+              />
+              <div className="hidden md:flex space-x-8 text-lg">
+              <a href="#accueil" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                  Accueil
+              </a>
+              <a href="#connection" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                  Connection
+              </a>
+              <a href="#enregistrement" className="text-amber-950 hover:bg-orange-50 border-y-0">
+                  Enregistrement
+              </a>
+              </div>
+
+              <i class="fa-sharp fa-solid fa-globe"></i>
           </div>
+
+          <div className="h-1 bg-amber-950"></div><br />
+
+          <div className="text-left ml-12 text-xl ">
+              <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
+          </div>
+
           <div className="flex w-max">
             <div className="flex ml-12 mr-20">
               <div className="mr-1">✅</div>
@@ -57,10 +81,6 @@ const Bio = () => {
               <h4>Configuration du compte</h4>
             </div>
           </div><br />
-          <div>
-            <h4>Les champs marqués d&apos;un astérisque * sont obligatoires</h4>
-          </div><br />
-          <div className="h-px bg-black"></div><br />
         </div>
 
         {/* Zone de texte pour la biographie */}
@@ -73,28 +93,32 @@ const Bio = () => {
             onChange={handleChange}
             rows="6"
             required
-            className="bg-gray-200 border h-72 py-2 px-4 rounded-md w-full"
+            className="bg-stone-300 border h-72 py-2 px-4 rounded-md w-full"
             placeholder="Écrivez votre biographie ici..."
           />
         </div>
 
-        {/* Boutons de soumission et d'annulation */}
-        <div className="flex justify-center space-x-20 mt-8">
-          <button
-            type="button"
-            onClick={handleReset}
-            className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600"
-          >
-            Annuler
-          </button>
-          <button
-            type="submit"
-            disabled={!formValid} // Désactiver le bouton si la biographie est vide
-            className={`py-2 px-4 rounded-md text-white ${formValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"}`}
-          >
-            Continuer
-          </button>
-        </div>
+        {/* Boutons de retour et d'annulation */}               
+          <div className="flex justify-center space-x-96 mt-8">
+          <Link to="/pprofil">
+              <button
+                  type="button"
+                  onClick={handleReset}
+                  className="py-2 px-4 bg-orange-50 text-amber-950 border border-amber-950 text-xl rounded-md hover:bg-amber-950 hover:text-orange-50"
+              >
+                  Retour
+              </button>
+          </Link>
+          <Link to="/bio">
+              <button
+              type="submit"
+              className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
+              disabled={!formValid}
+              >
+              Continuer
+              </button>
+          </Link>
+          </div>
       </form>
     </section>
   );
