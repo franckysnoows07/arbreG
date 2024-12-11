@@ -16,6 +16,7 @@ const familyTreeSchema = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'FamilyMember'
         }
+<<<<<<< Updated upstream
     ],
     privacySetting:{
         type: String,
@@ -24,3 +25,9 @@ const familyTreeSchema = new Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('FamilyTree', familyTreeSchema);
+=======
+    ]
+}, { timestamps: true });
+
+module.exports = mongoose.model('FamilyTree', familyTreeSchema)
+>>>>>>> Stashed changes
