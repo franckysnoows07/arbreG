@@ -11,6 +11,7 @@ import {
 import Bio from './pages/bio';
 import P_Profil from './pages/pprofil';
 import Conf from './pages/conf';
+import LoginPage from './pages/login';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/bio" element={<Bio/>}/>
         <Route path="/pprofil" element={<P_Profil/>}/>
         <Route path="/conf" element={<Conf/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
       </Routes>
     </BrowserRouter>
     </div>
