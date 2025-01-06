@@ -1,5 +1,6 @@
 // LoginPage.js
 import React from "react";
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
   return (
@@ -45,7 +46,7 @@ const LoginPage = () => {
           </div><br />
           <button
             type="submit"
-            className="w-full bg-amber-950 text-white py-2 px-4 rounded-md hover:bg-orange-50 focus:outline-none"
+            className="w-full bg-amber-950 text-orange-50 py-2 px-4 rounded-md hover:bg-orange-50 hover:text-amber-950 focus:outline-none"
           >
             Se connecter
           </button>
@@ -63,9 +64,12 @@ const LoginPage = () => {
         </form>
         <p className="mt-6 text-sm text-gray-600">
           Vous n’avez pas encore de compte ?
-          <a href="#" className="text-blue-500 hover:underline ml-1">
-            Créez-en un
-          </a>
+           <Link to="/">
+              <a href="#" className="text-blue-500 hover:underline ml-1">
+                Créez-en un
+              </a>   
+          </Link>
+          
         </p>
       </div>
 
