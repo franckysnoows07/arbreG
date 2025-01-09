@@ -14,7 +14,7 @@ const app = express();
 app.use(cors())
 app.use(cors({
     origin: 'http://localhost:5173', // Frontend URL
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Allowed HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
 }));
 
@@ -49,4 +49,3 @@ mongoose.connect(process.env.MONGO_URI)
         console.log(error);
     })
 
-    
