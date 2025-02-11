@@ -9,22 +9,22 @@ const createFamilyMember = async (req, res) => {
 
     try {
         // Check if the personId, familyTreeId, and relationship IDs are valid
-        if (!mongoose.Types.ObjectId.isValid(personId) ||
-            !mongoose.Types.ObjectId.isValid(familyTreeId) ||
-            !relationships.every(relationshipId => mongoose.Types.ObjectId.isValid(relationshipId))) {
-            return res.status(400).json({ error: 'Invalid IDs' });
-        }
+        // if (!mongoose.Types.ObjectId.isValid(personId) ||
+        //     !mongoose.Types.ObjectId.isValid(familyTreeId) ||
+        //     !relationships.every(relationshipId => mongoose.Types.ObjectId.isValid(relationshipId))) {
+        //     return res.status(400).json({ error: 'Invalid IDs' });
+        // }
 
-        // Check if the person, family tree, and relationships exist
-        const person = await Person.findById(personId);
-        const familyTree = await FamilyTree.findById(familyTreeId);
-        const validRelationships = await Promise.all(relationships.map(async (relationshipId) => {
-            return await Relationship.findById(relationshipId);
-        }));
+        // // Check if the person, family tree, and relationships exist
+        // const person = await Person.findById(personId);
+        // const familyTree = await FamilyTree.findById(familyTreeId);
+        // const validRelationships = await Promise.all(relationships.map(async (relationshipId) => {
+        //     return await Relationship.findById(relationshipId);
+        // }));
 
-        if (!person || !familyTree || validRelationships.some(relationship => !relationship)) {
-            return res.status(404).json({ error: 'Person, family tree, or relationships not found' });
-        }
+        // if (!person || !familyTree || validRelationships.some(relationship => !relationship)) {
+        //     return res.status(404).json({ error: 'Person, family tree, or relationships not found' });
+        // }
 
         // Create the family member
         const familyMember = await FamilyMember.create({

@@ -1,32 +1,33 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import  useSignup  from "../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
 
 const Conf = () => {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [uname, setUsername] = useState("");
+  const [fName, setFName] = useState("");
+  const [sName, setSName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [formValid, setFormValid] = useState(false);
+  const {signup, error, isLoading} = useSignup()
+  const navigate = useNavigate();
 
   // Validation du formulaire
-  const validateForm = () => {
-    const isValid =
-      email.trim() !== "" &&
-      username.trim() !== "" &&
-      password.trim() !== "" &&
-      password === confirmPassword;
-    setFormValid(isValid);
-  };
+  // const validateForm = () => {
+  //   const isValid =
+  //     email.trim() !== "" &&
+  //     uname.trim() !== "" &&
+  //     password.trim() !== "" &&
+  //     password === confirmPassword;
+  //   setFormValid(isValid);
+  // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formValid) {
-      console.log("Form submitted:", {
-        email,
-        username,
-        password,
-      });
-      handleReset();
+
+    const result = await signup(uname, fName, sName, email, password)
+    if(result){
+      navigate('/');
     }
   };
 
@@ -35,7 +36,8 @@ const Conf = () => {
     setUsername("");
     setPassword("");
     setConfirmPassword("");
-    setFormValid(false);
+    setFName("");
+    setSName("");
   };
 
   return (
@@ -74,10 +76,45 @@ const Conf = () => {
         <div className="max-w-sm mx-auto">
           <div className="mb-5">
             <label
+              htmlFor="fName"
+              className="block mb-2 text-sm font-medium text-amber-950"
+            >
+              Prénoms
+            </label>
+            <input
+              type="text"
+              id="fName"
+              value={fName}
+              onChange={(e) => {setFName(e.target.value)}}
+              className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <label
+              htmlFor="sName"
+              className="block mb-2 text-sm font-medium text-amber-950"
+            >
+              Nom
+            </label>
+            <input
+              type="text"
+              id="sName"
+              value={sName}
+              onChange={(e) => {
+                setSName(e.target.value);
+                // validateForm();
+              }}
+              className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <label
               htmlFor="email"
               className="block mb-2 text-sm font-medium text-amber-950"
             >
-              Entrez votre email
+              Email
             </label>
             <input
               type="email"
@@ -85,7 +122,7 @@ const Conf = () => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                validateForm();
+                // validateForm();
               }}
               className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
               required
@@ -94,18 +131,18 @@ const Conf = () => {
 
           <div className="mb-5">
             <label
-              htmlFor="username"
+              htmlFor="uname"
               className="block mb-2 text-sm font-medium text-amber-950"
             >
-              Entrez un nom d'utilisateur
+              Utilisateur
             </label>
             <input
               type="text"
-              id="username"
-              value={username}
+              id="uname"
+              value={uname}
               onChange={(e) => {
                 setUsername(e.target.value);
-                validateForm();
+                //validateForm();
               }}
               className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
               required
@@ -117,7 +154,7 @@ const Conf = () => {
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-amber-950"
             >
-              Entrez un mot de passe
+              Mot de passe
             </label>
             <input
               type="password"
@@ -125,7 +162,7 @@ const Conf = () => {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                validateForm();
+                //validateForm();
               }}
               className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
               required
@@ -137,7 +174,7 @@ const Conf = () => {
               htmlFor="confirmPassword"
               className="block mb-2 text-sm font-medium text-amber-950"
             >
-              Confirmez votre mot de passe
+              Confirmation
             </label>
             <input
               type="password"
@@ -145,7 +182,7 @@ const Conf = () => {
               value={confirmPassword}
               onChange={(e) => {
                 setConfirmPassword(e.target.value);
-                validateForm();
+                //validateForm();
               }}
               className="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5"
               required
@@ -154,26 +191,22 @@ const Conf = () => {
         </div>
 
         <div className="flex justify-center space-x-96 mt-8">
-          <Link to="/pprofil">
+          
             <button
               type="button"
               onClick={handleReset}
               className="py-2 px-4 bg-orange-50 text-amber-950 border border-amber-950 text-xl rounded-md hover:bg-amber-950 hover:text-orange-50"
             >
-              Retour
+              Reset
             </button>
-          </Link>
+          
           <button
-            type="submit"
-            className={`py-2 px-6 ${
-              formValid
-                ? "bg-amber-950 text-white hover:bg-amber-800"
-                : "bg-gray-300 cursor-not-allowed"
-            }`}
-            disabled={!formValid}
+            className={`py-2 px-6  "bg-amber-950 text-white hover:bg-amber-800"`}
+            disabled={isLoading}
           >
             Continuer
           </button>
+          {error && <div className={`text-red-500`}>{error}</div>}
         </div>
       </form>
     </section>

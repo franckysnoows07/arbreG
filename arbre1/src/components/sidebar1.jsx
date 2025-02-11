@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from 'react-router-dom';
 
 const Sidebar1 = () => {
@@ -15,7 +14,7 @@ const Sidebar1 = () => {
           Dashboard
         </Link>
         <a
-          href="#"
+          href="/dashpers"
           className="bg-green-100 text-green-700 font-medium py-3 px-4 rounded-md"
         >
           Personnes
@@ -25,7 +24,7 @@ const Sidebar1 = () => {
         </Link>
        
         <Link to="/arbre" className="py-3 px-4 hover:bg-gray-200 rounded-md">
-          Voir l'arbre
+          Voir l&apos;arbre
         </Link>
 
       </nav>

@@ -1,7 +1,9 @@
 // HomePage.js
-import React from "react";
+import {Link} from 'react-router-dom';
 
 const HomePage = () => {
+
+
   return (
     <div className="font-montserrat bg-orange-50 text-amber-950">
       {/* Barre de navigation */}
@@ -35,7 +37,7 @@ const HomePage = () => {
           <p className="text-lg leading-relaxed">
             Bienvenue sur notre plateforme ! Découvrez des fonctionnalités innovantes,
             une interface intuitive et une expérience utilisateur unique. Profitez
-            d'une navigation fluide et intuitive adaptée à vos besoins.
+            d&apos;une navigation fluide et intuitive adaptée à vos besoins.
             Explorez de nouvelles possibilités avec notre plateforme. Nous vous
             aidons à découvrir des solutions innovantes adaptées à vos besoins.
             Plongez dans une aventure numérique unique et épanouissante.
@@ -48,12 +50,16 @@ const HomePage = () => {
             />
           </div>
           <div className="flex space-x-4">
-            <button className="bg-amber-800 text-white px-6 py-2 rounded-md hover:bg-orange-600">
-              S'inscrire
-            </button>
-            <button className="bg-amber-800 text-white px-6 py-2 rounded-md hover:bg-orange-700">
-              Se connecter
-            </button>
+            <Link to ="/conf">
+              <button className="bg-amber-800 text-white px-6 py-2 rounded-md hover:bg-orange-600">
+                S&apos;inscrire
+              </button>
+            </Link>
+            <Link to ="/login">
+              <button className="bg-amber-800 text-white px-6 py-2 rounded-md hover:bg-orange-700">
+                Se connecter
+              </button>
+            </Link>
           </div>
         </div>
 
