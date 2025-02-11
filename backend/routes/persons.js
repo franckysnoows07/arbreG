@@ -1,6 +1,6 @@
 const express = require('express');
-const { createPerson, getPeople, getPerson, updatePerson, deletePerson,addViewer,
-    removeViewer } = require('../controllers/personController');
+const { createPerson, getPeople, getPerson, updatePerson, deletePerson,addViewer, createBio,
+    removeViewer, getPersonId } = require('../controllers/personController');
 const { protect, authorizeViewerOrCreator } = require('../middleware/requireauth');
 const router = express.Router();
 const passport = require('passport')
@@ -10,10 +10,16 @@ router.use(protect)
 //Get all person
 router.get('/', getPeople)
 
+// @route GET /api/user/person
+// @desc Get personId for authenticated user
+router.get('/person', getPersonId);
+
 //get a single person
 router.get('/:id', authorizeViewerOrCreator, getPerson)
  //post a new person
-router.post('/', createPerson)
+router.post('/create', createPerson)
+
+router.post('/:personId/bio', createBio);
 
  //delete a  person
 router.delete('/:id', authorizeViewerOrCreator, (req, res, next) => {

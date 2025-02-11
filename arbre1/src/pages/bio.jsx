@@ -1,35 +1,54 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import  { useState, useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import useBio from "../hooks/useBio";
+import PropTypes from 'prop-types';
+import { usePersonsContext } from "../hooks/usePersonContext";
 
 const Bio = () => {
-  const [biographie, setBiographie] = useState("");
-  const [formValid, setFormValid] = useState(false);
+  const [personId, setPersonId] = useState(null);
+  const [bio, setBiographie] = useState("");
+  // const [formValid, setFormValid] = useState(false);
+  const {createBio, error, isLoading} = useBio()
+  const navigate = useNavigate();
+  const {state} =usePersonsContext()
 
   // Met à jour le texte et vérifie si le formulaire est valide
-  const handleChange = (e) => {
-    setBiographie(e.target.value);
-    validateForm(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   setBiographie(e.target.value);
+  //   validateForm(e.target.value);
+  // };
 
   // Valide le formulaire pour s'assurer que la biographie n'est pas vide
-  const validateForm = (value) => {
-    setFormValid(value.trim() !== ""); // Si la biographie n'est pas vide, le formulaire est valide
-  };
+  // const validateForm = (value) => {
+  //   setFormValid(value.trim() !== ""); // Si la biographie n'est pas vide, le formulaire est valide
+  // };
+
+  useEffect(() => {
+    if (state.persons && state.persons.length > 0) {
+      setPersonId(state.persons[0]._id);
+    }
+  }, [state.persons]);
 
   // Gère la soumission du formulaire
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formValid) {
-      console.log("Biographie envoyée :", biographie);
-      handleReset(); // Réinitialise le formulaire
+    if (personId){
+      const result = await createBio(personId, bio);
+      if (result){
+        console.log("Biographie envoyée :", bio);
+        navigate("/login") // Réinitialise le formulaire
     }
+      
+      
   };
+    }
+      
 
   // Réinitialise le formulaire
-  const handleReset = () => {
-    setBiographie("");
-    setFormValid(false); // Réinitialise aussi la validation du formulaire
-  };
+  // const handleReset = () => {
+  //   setBiographie("");
+  //   setFormValid(false); // Réinitialise aussi la validation du formulaire
+  // };
 
   return (
     <section className="py-12 bg-orange-50 text-amber-950">
@@ -54,7 +73,7 @@ const Bio = () => {
               </a>
               </div>
 
-              <i class="fa-sharp fa-solid fa-globe"></i>
+              <i className="fa-sharp fa-solid fa-globe"></i>
           </div>
 
           <div className="h-1 bg-amber-950"></div><br />
@@ -89,8 +108,8 @@ const Bio = () => {
           <textarea
             id="biographieTextarea"
             name="biographie"
-            value={biographie}
-            onChange={handleChange}
+            value={bio}
+            onChange={(e)=>setBiographie(e.target.value)}
             rows="6"
             required
             className="bg-stone-300 border h-72 py-2 px-4 rounded-md w-full"
@@ -101,27 +120,30 @@ const Bio = () => {
         {/* Boutons de retour et d'annulation */}               
           <div className="flex justify-center space-x-96 mt-8">
           <Link to="/pprofil">
-              <button
-                  type="button"
-                  onClick={handleReset}
-                  className="py-2 px-4 bg-orange-50 text-amber-950 border border-amber-950 text-xl rounded-md hover:bg-amber-950 hover:text-orange-50"
-              >
-                  Retour
-              </button>
-          </Link>
-          <Link to="/bio">
-              <button
-              type="submit"
-              className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
-              disabled={!formValid}
-              >
-              Continuer
-              </button>
-          </Link>
-          </div>
+                    <button
+                        type="button"
+                        className="py-2 px-4 bg-orange-50 text-amber-950 border border-amber-950 text-xl rounded-md hover:bg-amber-950 hover:text-orange-50"
+                    >
+                        Retour
+                    </button>
+                </Link>
+
+            <button 
+            type="submit" 
+            disabled={isLoading}
+            className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700"
+            >
+          {isLoading ? 'Creating...' : 'Create Bio'}
+        </button>
+                </div>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
     </section>
   );
+};
+
+Bio.propTypes = {
+  personId: PropTypes.string.isRequired,
 };
 
 export default Bio;

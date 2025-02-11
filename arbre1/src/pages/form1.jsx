@@ -1,126 +1,94 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Link } from 'react-router-dom';
+import  useForm1  from "../hooks/useForm1";
 
 const FormulaireInscription = () => {
-  const [formData, setFormData] = useState({
-    sname: "",
-    fname: "",
-    fSname: "",
-    fFname: "",
-    mSname: "",
-    mFname: "",
-    fState: "",
-    mState: "",
-    pob: "",
-    gender: "",
-    nationality: "",
-    ecivil: "",
-    email: "",
-    dob: "",
-    phone: "",
-    mdod: "",
-    fdod: "",
-    child: "",
-    nbchild: "",
-    profession: "",
-  });
+  //const navigate = useNavigate();
+  const [sname, setSname]= useState('')
+  const [fname, setFname]= useState('')
+  const [fSname, setFsname]= useState('')
+  const [fFname, setFfname]= useState('')
+  const [mSname, setMsname]= useState('')
+  const [mFname, setMfname]= useState('')
+  const [fState, setFstate]= useState('')
+  const [mState, setMstate]= useState('')
+  const [pob, setPob]= useState('')
+  const [gender, setGender]= useState('')
+  const [nationality, setNationality]= useState('')
+  const [ecivil, setEcivil]= useState('')
+  const [email, setEmail]= useState('')
+  const [dob, setDob]= useState('')
+  const [dod, setDod]= useState('')
+  const [phone, setPhone]= useState('')
+  const [mdod, setMDod]= useState('')
+  const [fdod, setFDod]= useState('')
+  const [child, setChild]= useState('')
+  const [nbchild, setNbChild]= useState('')
+  // const [viewers, setViewers]= useState()
+  // const [userId, setUserid]= useState()
+  const [profession, setProfession]= useState('')
+  const {createperson, error, isLoading} = useForm1()
 
-  const [formValid, setFormValid] = useState(false);
-
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    const result = await createperson(sname, fname, fSname, fFname, mFname, mSname, fState, mState, gender, profession, dob, dod, pob, nationality, email, ecivil, phone, mdod, fdod, child, nbchild)
+    if (result){
+      localStorage.setItem('personId', result._id)
+      console.log('enregistrement sauvegarder')
+    }
+  }
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    validateForm();
+    const { name, value } = e.target;
+    if (name === 'fdod') {
+      setFDod(value);
+    } else if (name === 'mdod') {
+      setMDod(value);
+    }else if (name ==='nbchild'){
+      setNbChild(value);
+    }
   };
 
   const handleEtatChange = (e, parent) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.value === "mort") {
-      if (parent === "pere") {
-        setFormData({ ...formData, fState: "mort" });
-      } else {
-        setFormData({ ...formData, mState: "mort" });
-      }
-    }
-    validateForm();
-  };
-
-  const validateForm = () => {
-    // Liste des champs requis pour la validation
-    const requiredFields = Object.keys(formData).filter((key) => {
-      // Exclure dateDecesPere, dateDecesMere, et nombreEnfants de la validation
-      if (
-        key === "fState" ||
-        key === "mState" ||
-        key === "child" ||
-        key === "fdod" ||
-        key === "mdod" ||
-        key === "nbchild"   
-      ) {
-        return false;
-      }
-      return formData[key] === "";
-    });
-    setFormValid(requiredFields.length === 0);
-  };
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    if (formValid) {
-      try{
-        const response = await fetch('http://localhost:4000/api/people/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-                console.log('Server response:', data);
-                handleReset();
-        } else{
-          console.error('Error in submission:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error while submitting form:', error);
-      }
-    } else {
-      console.log('Form is not valid');
+    const { value } = e.target;
+    if (parent === 'pere') {
+      setFstate(value);
+    } else if (parent === 'mere') {
+      setMstate(value);
+    } else if (parent === 'child'){
+      setChild(value);
     }
   };
-
 
   const handleReset = () => {
-    setFormData({
-    sname: "",
-    fname: "",
-    fSname: "",
-    fFname: "",
-    mSname: "",
-    mFname: "",
-    fState: "vivant",
-    mState: "vivant",
-    pob: "",
-    gender: "",
-    nationality: "",
-    ecivil: "",
-    email: "",
-    dob: "",
-    phone: "",
-    mdod: "",
-    fdod: "",
-    child: "",
-    nbchild: "",
-    profession: "",
-    });
+    setSname('')
+    setFname('')
+    setFsname('')
+    setFfname('')
+    setMsname('')
+    setMfname('')
+    setFstate('')
+    setMstate('')
+    setPob('')
+    setGender('')
+    setNationality('')
+    setEcivil('')
+    setEmail('')
+    setDob('')
+    setPhone('')
+    setMDod('')
+    setFDod('')
+    setChild('')
+    setNbChild('')
+    setProfession('')
+    setDod('')
   };
 
   return (
     <section className='py-12 bg-gradient-to-b from-gray-100 to-amber-950 text-black'>
       <form onSubmit={handleSubmit}>
         <div className="entete">
-        <h4 className="mb-4 text-xl font-bold text-center text-gray-900">Formulaire d'inscription</h4>
+        <h4 className="mb-4 text-xl font-bold text-center text-gray-900">Formulaire d&apos;inscription</h4>
           <div>
           <h4>Veuillez remplir ce formulaire avec attention!</h4><br />
           </div>
@@ -160,7 +128,7 @@ const FormulaireInscription = () => {
             
           </div><br />
           <div>
-            <h4>Les champs marqués d'un astérisque * sont obligatoires</h4>
+            <h4>Les champs marqués d&apos;un astérisque * sont obligatoires</h4>
           </div><br />
           <div className="h-px bg-black"></div><br />
         </div>
@@ -173,10 +141,11 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="sname"
-              value={formData.sname}
-              onChange={handleChange}
+              value={sname}
+              onChange={(e) => setSname(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
+              
             />
           </div>
 
@@ -185,8 +154,8 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="fname"
-              value={formData.fname}
-              onChange={handleChange}
+              value={fname}
+              onChange={(e)=> setFname(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -196,8 +165,8 @@ const FormulaireInscription = () => {
             <label className="font-bold text-gray-700">Nationalité *</label>
             <select
               name="nationality"
-              value={formData.nationality}
-              onChange={handleChange}
+              value={nationality}
+              onChange={(e)=> setNationality(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             >
@@ -211,8 +180,8 @@ const FormulaireInscription = () => {
             <label className="font-bold text-gray-700">État civil *</label>
             <select
               name="ecivil"
-              value={formData.ecivil}
-              onChange={handleChange}
+              value={ecivil}
+              onChange={(e)=>setEcivil(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             >
@@ -228,8 +197,8 @@ const FormulaireInscription = () => {
             <input
               type="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -240,8 +209,8 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="profession"
-              value={formData.profession}
-              onChange={handleChange}
+              value={profession}
+              onChange={(e)=>setProfession(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -253,11 +222,11 @@ const FormulaireInscription = () => {
             <input
               type="date"
               name="dob"
-              value={formData.dob}
-              onChange={handleChange}
+              value={dob}
+              onChange={(e)=>setDob(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
-            />
+              />
           </div>
 
           <div className="flex flex-col mb-4">
@@ -265,8 +234,8 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="pob"
-              value={formData.pob}
-              onChange={handleChange}
+              value={pob}
+              onChange={(e)=>setPob(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -276,8 +245,8 @@ const FormulaireInscription = () => {
             <label className="font-bold text-gray-700">Genre *</label>
             <select
               name="gender"
-              value={formData.gender}
-              onChange={handleChange}
+              value={gender}
+              onChange={(e)=>setGender(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             >
@@ -293,8 +262,8 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="fSname"
-              value={formData.fSname}
-              onChange={handleChange}
+              value={fSname}
+              onChange={(e)=>setFsname(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -305,8 +274,8 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="fFname"
-              value={formData.fFname}
-              onChange={handleChange}
+              value={fFname}
+              onChange={(e)=>setFfname(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -320,7 +289,7 @@ const FormulaireInscription = () => {
                   type="radio"
                   name="fState"
                   value="mort"
-                  checked={formData.fState === "mort"}
+                  checked={fState === "mort"}
                   onChange={(e) => handleEtatChange(e, "pere")}
                   required
                 />
@@ -331,17 +300,17 @@ const FormulaireInscription = () => {
                   type="radio"
                   name="fState"
                   value="vivant"
-                  checked={formData.fState === "vivant"}
+                  checked={fState === "vivant"}
                   onChange={(e) => handleEtatChange(e, "pere")}
                 />
                 Vivant
               </label>
             </div>
-            {formData.etatPere === "mort" && (
+            {fState === "mort" && (
               <input
                 type="date"
                 name="fdod"
-                value={formData.fdod}
+                value={fdod}
                 onChange={handleChange}
                 className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
               />
@@ -354,8 +323,8 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="mSname"
-              value={formData.mSname}
-              onChange={handleChange}
+              value={mSname}
+              onChange={(e)=>setMsname(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -365,8 +334,8 @@ const FormulaireInscription = () => {
             <input
               type="text"
               name="mFname"
-              value={formData.mFname}
-              onChange={handleChange}
+              value={mFname}
+              onChange={(e)=>setMfname(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -379,29 +348,29 @@ const FormulaireInscription = () => {
                 <input
                   type="radio"
                   name="mState"
-                  value="morte"
-                  checked={formData.mState === "morte"}
+                  value="mort"
+                  checked={mState === "mort"}
                   onChange={(e) => handleEtatChange(e, "mere")}
                   required
                 />
-                Mort
+                mort
               </label>
               <label>
                 <input
                   type="radio"
                   name="mState"
-                  value="vivante"
-                  checked={formData.mState === "vivante"}
+                  value="vivant"
+                  checked={mState === "vivant"}
                   onChange={(e) => handleEtatChange(e, "mere")}
                 />
-                Vivant
+                vivant
               </label>
             </div>
-            {formData.mState === "mort" && (
+            {mState === "mort" && (
               <input
                 type="date"
                 name="mdod"
-                value={formData.mdod}
+                value={mdod}
                 onChange={handleChange}
                 className="w-full bg-gray-200 border py-2 px-4 rounded-md mt-2"
               />
@@ -413,8 +382,8 @@ const FormulaireInscription = () => {
             <label className="font-bold text-gray-700">Avez-vous des enfants ? *</label>
             <select
               name="child"
-              value={formData.child}
-              onChange={handleChange}
+              value={child}
+              onChange={(e) => handleEtatChange(e, "child")}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             >
@@ -424,13 +393,13 @@ const FormulaireInscription = () => {
             </select>
           </div>
 
-          {formData.child === "Oui" && (
+          {child === "Oui" && (
             <div className="flex flex-col mb-4">
-              <label className="font-bold text-gray-700">Nombre d'enfants *</label>
+              <label className="font-bold text-gray-700">Nombre d&apos;enfants *</label>
               <input
                 type="number"
                 name="nbchild"
-                value={formData.nbchild}
+                value={nbchild}
                 onChange={handleChange}
                 className="bg-gray-200 border py-2 px-4 rounded-md"
               />
@@ -441,8 +410,8 @@ const FormulaireInscription = () => {
             <input
               type="tel"
               name="phone"
-              value={formData.phone}
-              onChange={handleChange}
+              value={phone}
+              onChange={(e)=> setPhone(e.target.value)}
               required
               className="bg-gray-200 border py-2 px-4 rounded-md"
             />
@@ -457,24 +426,26 @@ const FormulaireInscription = () => {
             onClick={handleReset}
             className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600"
           >
-            Annuler
+            reset
           </button>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600"
-          >
-            Enregistrer
-          </button>
-          <Link to="/pprofil">
+
             <button
-              type="submit"
-              disabled={!formValid}
-              className={`py-2 px-4 rounded-md text-white ${formValid ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 cursor-not-allowed"}`}
+            disabled={isLoading}
+            className="py-2 px-4 bg-yellow-500 text-white rounded-md hover:bg-gray-600"
             >
-              Continuer
+              Enregistrer
             </button>
-          </Link>
+            {error && <div className={`text-red-500`}>{error}</div>}
+            
+              <Link to="/bio" >
+                <button
+                disabled={!phone}
+                className={`bg-amber-950 text-white py-2 px-6 ${!phone ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
+                >
+                  Continuer
+                </button>
+                </Link>
+            
         </div>
       </form>
     </section>

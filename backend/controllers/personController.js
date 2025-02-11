@@ -4,7 +4,7 @@ const createPerson = async (req, res) => {
   // if (!req.user || !req.user._id) {
   //   return res.status(401).json({ message: 'Unauthorized: User information is missing' });
   // }
-    const {sname, fname,fSname,fFname,mFname,mSname,fState,mState,gender,profession,dob,dod,viewers,userId} = req.body
+    const {sname, fname,fSname,fFname,mFname,mSname,fState,mState,gender,profession,dob,dod,pob,nationality,email,ecivil,phone,mdod,fdod,child,nbchild,viewers,userId} = req.body
     try {
         const person =  new Person({
             sname, 
@@ -19,6 +19,15 @@ const createPerson = async (req, res) => {
             profession,
             dob,
             dod,
+            pob,
+            nationality,
+            email,
+            ecivil,
+            phone,
+            mdod,
+            fdod,
+            child,
+            nbchild,
             viewers,
             userId , 
             createdBy: req.user._id
@@ -118,6 +127,42 @@ const addViewer = async (req, res) => {
     }
   };
 
+  // Create a bio for a person
+const createBio = async (req, res) => {
+  const { personId } = req.params 
+  const { bio } = req.body;
+
+  try {
+    const person = await Person.findById(personId);
+
+    if (!person) {
+      return res.status(404).json({ error: 'Person not found' });
+    }
+
+    person.bio = bio;
+    await person.save();
+
+    res.status(201).json(person);
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to create bio' });
+  }
+};
+
+const getPersonId = async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming req.user contains the authenticated user's info
+    const person = await Person.findOne({ user: userId });
+
+    if (!person) {
+      return res.status(404).json({ error: 'Person not found' });
+    }
+
+    res.status(200).json({ personId: person._id });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 module.exports = {
     createPerson,
     getPeople,
@@ -126,4 +171,6 @@ module.exports = {
     deletePerson,
     addViewer,
     removeViewer,
+    createBio,
+    getPersonId
 }

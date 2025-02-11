@@ -6,7 +6,9 @@ const userRoutes = require('./routes/user');
 const relationshipRoutes = require('./routes/relationship')
 const familytreeRoutes = require('./routes/familytree')
 const familymemberRoutes = require('./routes/familymember')
+const mediaRoutes = require('./routes/media')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
 // express app
 const app = express();
@@ -19,7 +21,6 @@ app.use(cors({
 }));
 
 
-
 //middleware
 app.use(express.json())
 app.use((req, res, next) =>{
@@ -27,13 +28,15 @@ app.use((req, res, next) =>{
     next()
 })
 
+app.use(bodyParser.json())
+
 //routes
 app.use('/api/people', personRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/relationships', relationshipRoutes)
 app.use('/api/familytrees', familytreeRoutes)
 app.use('/api/familymembers', familymemberRoutes)
-
+app.use('/api/media', mediaRoutes)
 
 
 //connect to db

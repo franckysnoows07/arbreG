@@ -1,10 +1,12 @@
 const FamilyTree = require('../models/familytreeModel');
 const FamilyMember = require('../models/familymemberModel');
+const User = require('../models/userModel');
 const mongoose = require('mongoose');
 
 // Create a new family tree
 const createFamilyTree = async (req, res) => {
-    const { name, createdBy, familyMembers } = req.body;
+    const { name, familyMembers } = req.body;
+    const createdBy = req.user._id
 
     try {
         // Check if the createdBy ID is valid
@@ -53,6 +55,21 @@ const getFamilyTree = async (req, res) => {
     }
 };
 
+// Display the family tree based on surname 
+const getFamilyTreeBySurname = async (req, res)=>{
+    const {surname} = req.params;
+    try{
+        const familyTree = await FamilyTree.find({surname}).populate('familyMembers');
+        if(!familyTree){
+            return res.status(404).json({error: 'Family tree not found'});
+        }else{
+            return res.status(200).json(familyTree);
+        }
+    }catch(error){
+        res.status(500).json({error: 'Failed to get family tree'});
+    }
+}
+
 // Add a family member to a family tree
 const addFamilyMember = async (req, res) => {
     const { familyTreeId, familyMemberId } = req.params;
@@ -86,5 +103,6 @@ const addFamilyMember = async (req, res) => {
 module.exports = {
     createFamilyTree,
     getFamilyTree,
-    addFamilyMember
+    addFamilyMember,
+    getFamilyTreeBySurname
 };

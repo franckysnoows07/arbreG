@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const mediaSchema = new Schema({
-    url: { 
+    filename: { 
         type: String, 
         required: true 
     },
@@ -17,17 +17,13 @@ const mediaSchema = new Schema({
     },
     mediaType: {
         type: String,
-        enum: ['image', 'video', 'document'],
         required: true
     },
-    description: {
-        type: String
-    },
-    uploadedBy: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User', 
-        required: true 
-    }
+    fileId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'uploads.files' // Reference to the GridFS file
+      }
 }, {timestamps: true})
 
 module.exports = mongoose.model('Media', mediaSchema)

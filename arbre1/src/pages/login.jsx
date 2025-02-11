@@ -1,8 +1,26 @@
 // LoginPage.js
-import React from "react";
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link} from 'react-router-dom';
+import  {useLogin}  from "../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
+
+
 
 const LoginPage = () => {
+
+  const [email, setEmail]=useState('')
+  const [password, setPassword]=useState('')
+  const {login, isLoading, error}=useLogin()
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault()
+    const result =await login(email, password)
+    if(result){
+      navigate('/dash1')
+    }
+  }
+
   return (
     <div className="flex h-screen bg-orange-50 text-amber-950">
       {/* Section gauche: Formulaire */}
@@ -15,7 +33,7 @@ const LoginPage = () => {
             />
         <h2 className="text-2xl font-bold text-gray-800 mb-6">Bienvenue👋🏿👋🏿</h2>
         <p>Entrez vos informations de connexion</p><br />
-        <form className="w-full max-w-sm space-y-4">
+        <form className="w-full max-w-sm space-y-4" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="email"
@@ -26,6 +44,8 @@ const LoginPage = () => {
             <input
               type="email"
               id="email"
+              onChange={(e) => setEmail(e.target.value)} 
+              value={email} 
               placeholder="Entrer votre email"
               className="w-full px-4 py-2 border border-gray-300 bg-orange-50 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             />
@@ -40,12 +60,14 @@ const LoginPage = () => {
             <input
               type="password"
               id="password"
+              onChange={(e) => setPassword(e.target.value)} 
+              value={password}  
               placeholder="Entrer votre mot de passe"
               className="w-full px-4 py-2 border border-gray-300 bg-orange-50 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             />
           </div><br />
           <button
-            type="submit"
+            disabled={isLoading}
             className="w-full bg-amber-950 text-orange-50 py-2 px-4 rounded-md hover:bg-orange-50 hover:text-amber-950 focus:outline-none"
           >
             Se connecter
@@ -64,13 +86,12 @@ const LoginPage = () => {
         </form>
         <p className="mt-6 text-sm text-gray-600">
           Vous n’avez pas encore de compte ?
-           <Link to="/">
-              <a href="#" className="text-blue-500 hover:underline ml-1">
+           <Link to="/conf" className="text-blue-500 hover:underline ml-1">
                 Créez-en un
-              </a>   
           </Link>
           
         </p>
+        {error && <script> alert({error})</script>}
       </div>
 
       {/* Section droite: Image */}

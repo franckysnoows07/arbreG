@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
+const { matchPath } = require('react-router-dom')
 
 const userSchema = new mongoose.Schema({
     uname:{type: String, required: true, unique: true},
@@ -29,7 +30,7 @@ userSchema.statics.signup = async function(uname,fName, sName, email, password) 
     }
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
-
+    console.log('Hashed Password:', hash);
     const user = await this.create({email, password: hash, uname, fName, sName})
 
     return user
@@ -47,6 +48,9 @@ userSchema.statics.login = async function(email, password) {
     }
   
     const match = await bcrypt.compare(password, user.password)
+    console.log('password: ', password )
+    console.log('passwordh: ', user.password )
+    console.log('Password match: ', match)
     if (!match) {
       throw Error('Incorrect password')
     }

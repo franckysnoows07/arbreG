@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai"; 
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import useMedia from "../hooks/useMedia";
 function P_Profil() {
-    const [profileImage, setProfileImage] = useState(null);
+    const [file, setProfileImage] = useState(null);
     const [formValid, setFormValid] = useState(false);
     const [dragActive, setDragActive] = useState(false);
+    const {pprofil, isLoading, error} = useMedia()
+    const history = useNavigate()
+    // const [personId, setPersonId] = useState(null);
+
+    // useEffect(() => {
+    //     const savedPersonId = localStorage.getItem('personId');
+    //     if (savedPersonId) {
+    //         setPersonId(savedPersonId);
+    //     }
+    // }, []);
 
     // Gère la sélection de fichier via l'input
     const handleImageUpload = (e) => {
@@ -44,13 +54,19 @@ function P_Profil() {
     };
 
     // Gère la soumission du formulaire
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        if (formValid) {
-            // Envoyer la photo de profil
-            console.log("Photo de profil envoyée :", profileImage);
-            handleReset(); // Réinitialiser le formulaire
+        if (formValid ) {
+            const result = await pprofil(file);
+            if (result){
+            console.log('enregistrement sauvegarder')
+            history('/bio')
+            }
         }
+            // Envoyer la photo de profil
+            // console.log("Photo de profil envoyée :", profileImage);
+            // handleReset(); // Réinitialiser le formulaire
+        
     };
 
     // Réinitialise le formulaire
@@ -82,7 +98,7 @@ function P_Profil() {
                         </a>
                         </div>
 
-                        <i class="fa-sharp fa-solid fa-globe"></i>
+                        <i className="fa-sharp fa-solid fa-globe"></i>
                     </div>
 
                     <div className="h-1 bg-amber-950"></div><br />
@@ -126,10 +142,10 @@ function P_Profil() {
                         onChange={handleImageUpload}
                         className="hidden" />
                     <label htmlFor="imageUpload" className="cursor-pointer flex flex-col items-center justify-center h-full w-full text-center">
-                        {profileImage ? (
+                        {file ? (
                             <>
-                                <img src={URL.createObjectURL(profileImage)} alt="Photo de profil" className="w-24 h-24 object-cover rounded-full" />
-                                <span className="text-gray-700 mt-4">{profileImage.name}</span>
+                                <img src={URL.createObjectURL(file)} alt="Photo de profil" className="w-24 h-24 object-cover rounded-full" />
+                                <span className="text-gray-700 mt-4">{file.name}</span>
                             </>
                         ) : (
                             <>
@@ -153,16 +169,23 @@ function P_Profil() {
                         Retour
                     </button>
                 </Link>
-                <Link to="/bio">
-                    <button
-                    type="submit"
-                    className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
-                    disabled={!formValid}
+                <button
+                        type="submit"
+                        className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
+                        disabled={!formValid || isLoading}
                     >
-                    Continuer
+                        {isLoading ? 'Uploading...' : 'Enregistrer'}
                     </button>
+                    <Link to="/bio" >
+                <button
+                disabled={!formValid}
+                className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}
+                >
+                  Continuer
+                </button>
                 </Link>
                 </div>
+                {error && <p style={{ color: 'green' }}>{error}</p>}
             </form>
         </section>
     );
