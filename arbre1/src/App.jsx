@@ -18,7 +18,7 @@ import DashPersonne from './pages/dashpers';
 import PersonForm from './pages/personform';
 import Arbre from './pages/arbre';
 import DashLien from './pages/dashlien';
-import SearchTree from './pages/searchtree';
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -38,7 +38,6 @@ function App() {
         <Route path="/personform" element={<PersonForm/>}/>
         <Route path="/arbre" element={<Arbre/>}/>
         <Route path="/dashlien" element={<DashLien/>}/>
-        <Route path="/searchtree" element={<SearchTree/>}/>
       </Routes>
     </BrowserRouter>
     </div>
