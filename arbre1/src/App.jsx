@@ -15,10 +15,7 @@ import DashPersonne from './pages/dashpers';
 import PersonForm from './pages/personform';
 import Arbre from './pages/arbre';
 import DashLien from './pages/dashlien';
-// import { AuthProvider } from './context/AuthContext';
-// import { PersonsProvider } from './context/PersonContext';
-//import { useAuthContext } from './hooks/useAuthContext';
-
+import SearchTree from './pages/searchtree';
 
 
 const App=() => {
@@ -39,6 +36,7 @@ const App=() => {
           <Route path="/personform" element={<PersonForm/>}/>
           <Route path="/arbre" element={<Arbre/>}/>
           <Route path="/dashlien" element={<DashLien/>}/>
+          <Route path="/searchtree" element={<SearchTree/>}/>
         </Routes>
     </Router>
   )
