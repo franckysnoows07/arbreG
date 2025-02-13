@@ -109,7 +109,7 @@ const Bio = () => {
                   Retour
               </button>
           </Link>
-          <Link to="/bio">
+          <Link to="/conf">
               <button
               type="submit"
               className={`bg-amber-950 text-white py-2 px-6 ${!formValid ? "opacity-50 cursor-not-allowed" : "hover:bg-amber-800"}`}

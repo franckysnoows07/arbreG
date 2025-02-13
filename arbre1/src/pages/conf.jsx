@@ -163,6 +163,8 @@ const Conf = () => {
               Retour
             </button>
           </Link>
+
+          <Link to="/searchtree">
           <button
             type="submit"
             className={`py-2 px-6 ${
@@ -174,6 +176,7 @@ const Conf = () => {
           >
             Continuer
           </button>
+          </Link>
         </div>
       </form>
     </section>
