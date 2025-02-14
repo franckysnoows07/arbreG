@@ -19,6 +19,8 @@ import PersonForm from './pages/personform';
 import Arbre from './pages/arbre';
 import DashLien from './pages/dashlien';
 import SearchTree from './pages/searchtree';
+import FamilyTreeForm from './pages/familytreeform';
+import VisualiserArbre from './pages/visualiserarbre';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -39,6 +41,8 @@ function App() {
         <Route path="/arbre" element={<Arbre/>}/>
         <Route path="/dashlien" element={<DashLien/>}/>
         <Route path="/searchtree" element={<SearchTree/>}/>
+        <Route path="/familytree" element={<FamilyTreeForm/>}/>
+        <Route path="/seetree" element={<VisualiserArbre/>}/>
       </Routes>
     </BrowserRouter>
     </div>

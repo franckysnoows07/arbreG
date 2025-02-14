@@ -60,7 +60,9 @@ export default function SearchTree() {
                   <h3 className="font-bold text-[#4B3B2C] text-left">{name}</h3>
                   <p className="text-sm text-[#4B3B2C] text-left">Membres: 50</p>
                   <p className="text-sm text-[#4B3B2C] text-left">Créé par : Aurel VIGNON</p>
+                  <Link to="/familytree">
                   <div className="text-right text-[#4B3B2C] cursor-pointer text-xl">👁</div>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -75,8 +77,9 @@ export default function SearchTree() {
   
               <label className="block text-[#4B3B2C] font-semibold mb-1">Description</label>
               <textarea className="w-full p-2 border border-[#4B3B2C] rounded-md mb-4"></textarea>
-  
+              <Link to="/seetree">
               <button className="w-full bg-[#4B3B2C] text-white p-2 rounded-md font-semibold">Créer</button>
+              </Link>
             </form>
           </div>
         </div>
