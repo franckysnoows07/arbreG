@@ -5,32 +5,26 @@ const mongoose = require('mongoose');
 
 // Create a new family tree
 const createFamilyTree = async (req, res) => {
-    const { name, familyMembers } = req.body;
-    const createdBy = req.user._id
-
     try {
-        // Check if the createdBy ID is valid
-        if (!mongoose.Types.ObjectId.isValid(createdBy)) {
-            return res.status(400).json({ error: 'Invalid createdBy ID' });
-        }
-
-        // Check if the createdBy user exists
-        const user = await User.findById(createdBy);
-
+        const { name, descp } = req.body; // userId is the ObjectId of the creator
+        const userId = req.user._id;
+        // Fetch the user's name and surname
+        const user = await User.findById(userId).select('sName fName');
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        // Create the family tree
-        const familyTree = await FamilyTree.create({
+        // Create the family tree with name and surname instead of ObjectId
+        const familyTree = new FamilyTree({
             name,
-            createdBy,
-            familyMembers
+            descp,
+            createdBy: { name: user.sName, surname: user.fName }
         });
 
-        res.status(200).json(familyTree);
+        await familyTree.save();
+        res.status(201).json(familyTree);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ message: 'Something went wrong', error });
     }
 };
 
@@ -59,12 +53,15 @@ const getFamilyTree = async (req, res) => {
 const getFamilyTreeBySurname = async (req, res)=>{
     const {surname} = req.params;
     try{
-        const familyTree = await FamilyTree.find({surname}).populate('familyMembers');
-        if(!familyTree){
+        const familyTree = await FamilyTree.find({
+            name: { $regex: surname, $options: 'i' } // 'i' makes it case-insensitive
+        }).populate('familyMembers');
+        if(familyTree === 0){
             return res.status(404).json({error: 'Family tree not found'});
-        }else{
-            return res.status(200).json(familyTree);
         }
+
+         res.status(200).json(familyTree);
+        
     }catch(error){
         res.status(500).json({error: 'Failed to get family tree'});
     }

@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import FamilyDetails from "../components/familyDetail";
+import FamilyForm from "../components/familyForm";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 
-export default function SearchTree() {
+const SearchTree = () => {
+  const { state } = useContext(AuthContext);
+  console.log('AuthContext state:', state); // Debug log
+  const username = state.user ? state.user.user : 'Guest';
+  console.log('AuthContext username:', username);
+  
     return (
       <div className="bg-[#F5EDE2]  text-amber-950 p-6">
         <div className="entete">
@@ -53,34 +62,18 @@ export default function SearchTree() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
           {/* Existing Trees */}
           <div>
-            <h2 className="text-xl font-bold text-[#4B3B2C] mb-4">GBAGUIDI</h2>
-            <div className="space-y-4">
-              {["GBAGUIDI", "GBAGUIDI GBAGO", "GBAGUIDI GOUMOUAN"].map((name, index) => (
-                <div key={index} className="border border-[#4B3B2C] p-4 rounded-md bg-white">
-                  <h3 className="font-bold text-[#4B3B2C] text-left">{name}</h3>
-                  <p className="text-sm text-[#4B3B2C] text-left">Membres: 50</p>
-                  <p className="text-sm text-[#4B3B2C] text-left">Créé par : Aurel VIGNON</p>
-                  <div className="text-right text-[#4B3B2C] cursor-pointer text-xl">👁</div>
-                </div>
-              ))}
-            </div>
+          <h2 className="text-xl font-bold text-[#4B3B2C] mb-4">{username.sName}</h2>
+            <FamilyDetails />
           </div>
   
           {/* Create New Tree */}
           <div>
             <h2 className="text-xl font-bold text-[#4B3B2C] mb-4">Créer un nouvel arbre</h2>
-            <form className="bg-white p-6 border border-[#4B3B2C] rounded-md">
-              <label className="block text-[#4B3B2C] font-semibold mb-1">Nom de l’arbre (Votre nom de famille)</label>
-              <input type="text" placeholder="Tode" className="w-full p-2 border border-[#4B3B2C] rounded-md mb-4" />
-  
-              <label className="block text-[#4B3B2C] font-semibold mb-1">Description</label>
-              <textarea className="w-full p-2 border border-[#4B3B2C] rounded-md mb-4"></textarea>
-  
-              <button className="w-full bg-[#4B3B2C] text-white p-2 rounded-md font-semibold">Créer</button>
-            </form>
+            <FamilyForm />
           </div>
         </div>
       </div>
     );
   }
+  export default SearchTree;
   

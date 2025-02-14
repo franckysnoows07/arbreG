@@ -6,10 +6,12 @@ const familyTreeSchema = new Schema({
         type: String,
         required: true
     },
+    descp:{
+        type: String
+    },
     createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        name: { type: String, required: true },
+        surname: { type: String, required: true }
     },
     familyMembers: [
         {
