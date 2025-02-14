@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+// import React, { useState } from "react";
+// import { Link } from 'react-router-dom';
 import FamilyDetails from "../components/familyDetail";
 import FamilyForm from "../components/familyForm";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import VisualiserArbre from "./visualiserarbre";
+import {useState} from 'react';
 
 
 const SearchTree = () => {
@@ -11,6 +13,13 @@ const SearchTree = () => {
   console.log('AuthContext state:', state); // Debug log
   const username = state.user ? state.user.user : 'Guest';
   console.log('AuthContext username:', username);
+
+  const [selectedTree, setSelectedTree] = useState(null);
+
+  const handleSelectTree = (tree) => {
+    console.log('Selected tree:', tree)
+    setSelectedTree(tree);
+  }
   
     return (
       <div className="bg-[#F5EDE2]  text-amber-950 p-6">
@@ -63,7 +72,7 @@ const SearchTree = () => {
           {/* Existing Trees */}
           <div>
           <h2 className="text-xl font-bold text-[#4B3B2C] mb-4">{username.sName}</h2>
-            <FamilyDetails />
+            <FamilyDetails onSelectTree={handleSelectTree} />
           </div>
   
           {/* Create New Tree */}
@@ -72,6 +81,12 @@ const SearchTree = () => {
             <FamilyForm />
           </div>
         </div>
+         {/* Display Selected Tree */}
+      {selectedTree && (
+        <div className="mt-8">
+          <VisualiserArbre tree={selectedTree} />
+        </div>
+      )}
       </div>
     );
   }

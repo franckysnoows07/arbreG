@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 
 const FamilyTreeForm = () => {
+  
   return (
     <div className="min-h-screen bg-[#F8F1E7] text-[#3D2B1F] px-8 py-4">
       {/* Navbar */}

@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 import { useTreesContext } from '../hooks/useTreeContext';
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
-const FamilyDetails = ()=> {
+const FamilyDetails = ({onSelectTree})=> {
   const { dispatch } = useTreesContext();
   const { state } = useAuthContext();
   const user = state.user;
@@ -16,6 +17,7 @@ const FamilyDetails = ()=> {
   const [trees, setTrees] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchTrees = async () => {
@@ -76,13 +78,18 @@ const FamilyDetails = ()=> {
     }
   }
 
+  const handleClick2 = (tree) => {
+    console.log('Selected tree:', tree);
+    onSelectTree(tree);
+    navigate(`/seetree/${tree._id}`, {state: {tree}})
+  };
   return (
     <div className="space-y-4">
       {trees && trees.length > 0 ? ( // Check if trees exists and is not empty
         trees.map(tree => (
-          <div key={tree.id} className="border border-[#4B3B2C] p-4 rounded-md bg-white">
+          <div key={tree.id} className="border border-[#4B3B2C] p-4 rounded-md bg-white" onClick={() => handleClick2(tree)}>
             <h3 className="font-bold text-[#4B3B2C] text-left">{tree.name}</h3>
-            <p className="text-sm text-[#4B3B2C] text-left">Membres: {tree.member}</p>
+            <p className="text-sm text-[#4B3B2C] text-left">Membres: {tree.familyMembers.length}</p>
             <p className="text-sm text-[#4B3B2C] text-left">Créé par : {tree.createdBy.surname} {tree.createdBy.name}</p>
             <div className="text-right text-[#4B3B2C] cursor-pointer text-xl">👁</div>
           </div>
@@ -97,6 +104,7 @@ const FamilyDetails = ()=> {
 }
 
 FamilyDetails.propTypes = {
+  onSelectTree: PropTypes.func.isRequired,
     tree: PropTypes.shape({
       name: PropTypes.string.isRequired,
       _id: PropTypes.string.isRequired,

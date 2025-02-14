@@ -16,6 +16,8 @@ import PersonForm from './pages/personform';
 import Arbre from './pages/arbre';
 import DashLien from './pages/dashlien';
 import SearchTree from './pages/searchtree';
+import FamilyTreeForm from './pages/familytreeform';
+import VisualiserArbre from './pages/visualiserarbre';
 
 
 const App=() => {
@@ -37,6 +39,8 @@ const App=() => {
           <Route path="/arbre" element={<Arbre/>}/>
           <Route path="/dashlien" element={<DashLien/>}/>
           <Route path="/searchtree" element={<SearchTree/>}/>
+          <Route path="/familytree" element={<FamilyTreeForm/>}/>
+          <Route path="/seetree/:id" element={<VisualiserArbre/>}/>
         </Routes>
     </Router>
   )
