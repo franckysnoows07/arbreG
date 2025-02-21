@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import VisualiserArbre from "./visualiserarbre";
 import {useState} from 'react';
+import {useNavigate} from 'react-router-dom'
 
 
 const SearchTree = () => {
@@ -15,10 +16,12 @@ const SearchTree = () => {
   console.log('AuthContext username:', username);
 
   const [selectedTree, setSelectedTree] = useState(null);
+  const navigate = useNavigate();
 
   const handleSelectTree = (tree) => {
     console.log('Selected tree:', tree)
     setSelectedTree(tree);
+    navigate(`/seetree/${tree._id}`, { state: { tree } })
   }
   
     return (

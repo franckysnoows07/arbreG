@@ -39,8 +39,8 @@ const App=() => {
           <Route path="/arbre" element={<Arbre/>}/>
           <Route path="/dashlien" element={<DashLien/>}/>
           <Route path="/searchtree" element={<SearchTree/>}/>
-          <Route path="/familytree" element={<FamilyTreeForm/>}/>
           <Route path="/seetree/:id" element={<VisualiserArbre/>}/>
+          <Route path="/familytreeform/:id" element={<FamilyTreeForm/>}/>
         </Routes>
     </Router>
   )

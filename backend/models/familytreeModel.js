@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { familyMemberSchema } = require('./familymemberModel');
+
 
 const familyTreeSchema = new Schema({
     name: {
@@ -14,10 +16,7 @@ const familyTreeSchema = new Schema({
         surname: { type: String, required: true }
     },
     familyMembers: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'FamilyMember'
-        }
+        familyMemberSchema
     ]
 }, { timestamps: true });
 

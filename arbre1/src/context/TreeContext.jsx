@@ -9,8 +9,8 @@ const treesReducer = (state, action) => {
       return { ...state, tree: action.payload };
     case 'CREATE_TREE':
       return { ...state, trees: [...state.trees, action.payload] };
-    // case 'CREATE_T':
-    //   return { ...state, trees: [...state.trees, action.payload] };
+    case 'CREATE_MEMBER':
+      return { ...state, trees: [...state.trees, action.payload] };
     case 'UPDATE_TREE':
       return {
           ...state,

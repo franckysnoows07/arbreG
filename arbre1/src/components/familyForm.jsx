@@ -1,9 +1,10 @@
 import { useState } from "react"
 import useFamilyForm from "../hooks/useFamilyForm";
+import {useNavigate} from 'react-router-dom'
 
 const FamilyForm = () => {
   const {createtree, error} = useFamilyForm()
-  
+  const navigate = useNavigate()
 
   const [name, setName] = useState('')
   const [descp, setDescp] = useState('')
@@ -14,21 +15,23 @@ const FamilyForm = () => {
     e.preventDefault()
 
     setIsLoading(true);
+    setEmptyFields([])
     
-    
+   try{ 
     const result = await createtree(name, descp)
-    if (result){
-      // localStorage.setItem('personId', result._id)
-      console.log('enregistrement sauvegarder')
-      setEmptyFields([])
-      setName('');
-      setDescp('');
+    console.log('Tree creation result:', result);
+    if (result && result._id) {
+      console.log('Navigating to:', `/familytreeform/${result._id}`);
+      navigate(`/familytreeform/${result._id}`, { state: { tree: result } });
     } else {
-      setEmptyFields(['name', 'descp']); // Example of setting empty fields
+      console.error('Tree creation failed or _id missing:', result);
     }
-
+  }catch (error) {
+    console.error('Error while creating tree: ', error);
+  }finally{
     setIsLoading(false);
-    
+  }
+ 
   }
 
   return (

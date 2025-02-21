@@ -4,20 +4,24 @@ const Schema = mongoose.Schema;
 const familyMemberSchema = new Schema({
     person: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Person',
-        required: true
+        ref: 'Person'
     },
     familyTree: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'FamilyTree',
-        required: true
+        ref: 'FamilyTree'
     },
-    relationships: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Relationship'
-        }
-    ]
+    name: {
+        type: String
+    },
+    surname: {
+        type: String
+    },
+    relation: {
+        type: String
+    }
 }, { timestamps: true });
 
-module.exports = mongoose.model('FamilyMember', familyMemberSchema);
+module.exports = { 
+   FamilyMember: mongoose.model('FamilyMember', familyMemberSchema),
+   familyMemberSchema
+};

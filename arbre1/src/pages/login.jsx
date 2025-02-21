@@ -10,6 +10,7 @@ const LoginPage = () => {
 
   const [email, setEmail]=useState('')
   const [password, setPassword]=useState('')
+  const [showPassword, setShowPassword]=useState('')
   const {login, isLoading, error}=useLogin()
   const navigate = useNavigate()
 
@@ -19,6 +20,10 @@ const LoginPage = () => {
     if(result){
       navigate('/dash1')
     }
+  }
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
   }
 
   return (
@@ -57,14 +62,58 @@ const LoginPage = () => {
             >
               Mot de Passe
             </label>
+            <div className="relative">
             <input
-              type="password"
+              type={showPassword? "text" : "password"}
               id="password"
               onChange={(e) => setPassword(e.target.value)} 
               value={password}  
               placeholder="Entrer votre mot de passe"
               className="w-full px-4 py-2 border border-gray-300 bg-orange-50 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             />
+            <span
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+            >
+              {showPassword ? (
+                  <svg
+                    className="h-6 w-6 text-gray-700"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.274.823-.68 1.597-1.196 2.285M15 12a3 3 0 01-6 0 3 3 0 016 0zm-3 3c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm0 0c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm0 0c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-6 w-6 text-gray-700"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7 .274-.823.68-1.597 1.196-2.285M15 12a3 3 0 01-6 0 3 3 0 016 0zm-3 3c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm0 0c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm0 0c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"
+                    />
+                  </svg>
+                )}
+            </span>
+            </div>
           </div><br />
           <button
             disabled={isLoading}

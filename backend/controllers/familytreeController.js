@@ -1,7 +1,8 @@
 const FamilyTree = require('../models/familytreeModel');
-const FamilyMember = require('../models/familymemberModel');
+const {FamilyMember} = require('../models/familymemberModel');
 const User = require('../models/userModel');
 const mongoose = require('mongoose');
+const Person = require('../models/personModel');
 
 // Create a new family tree
 const createFamilyTree = async (req, res) => {
@@ -97,9 +98,77 @@ const addFamilyMember = async (req, res) => {
     }
 };
 
+const createFamilyMember = async (req, res) =>{
+    const {familyTreeId}= req.params;
+    const {name, surname, relation, ppere, npere, pmere, nmere} = req.body;
+
+    try {
+        const familyTree = await FamilyTree.findById(familyTreeId);
+
+        if (!familyTree) {
+            return res.status(404).json({ error: 'Family tree not found' });
+        }
+        const person = new Person({
+            sname: surname,
+            fname: name,
+            fSname: npere,
+            fFname: ppere,
+            mSname: nmere,
+            mFname: pmere,
+            createdBy: req.user._id,
+            nationality: " ",
+            gender: " "
+        })
+        await person.save();
+
+        let person1
+        if (npere){
+             person1 = new Person({
+            sname: npere,
+            fname: ppere,
+            child: 'Oui'
+            })
+            await person1.save()
+        }
+        let person2
+        if (nmere){
+            person2 = new Person({
+                sname: nmere,
+                fname: pmere,
+                child: 'Oui'
+            })
+            await person2.save()
+        }
+
+        const familyMember = new FamilyMember({
+            person: person._id,
+            familyTree: familyTreeId,
+            name,
+            surname,
+            relation
+        })
+        await familyMember.save();
+
+   
+
+        familyTree.familyMembers.push({
+            name:familyMember.name,
+            surname: familyMember.surname,
+            relation: familyMember.relation
+        })
+        await familyTree.save();
+
+        res.status(201).json({success: 'family member added successfuly', familyMember});
+
+    }catch (error) {
+        res.status(500).json({error: error.message});
+    }
+
+}
 module.exports = {
     createFamilyTree,
     getFamilyTree,
     addFamilyMember,
-    getFamilyTreeBySurname
+    getFamilyTreeBySurname,
+    createFamilyMember
 };

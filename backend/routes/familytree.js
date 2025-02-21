@@ -8,6 +8,9 @@ const { protect } = require('../middleware/requireauth');
 // Create a new family tree
 router.post('/create', protect,familytreeController.createFamilyTree);
 
+//route for family member
+router.post('/:familyTreeId/members', protect, familytreeController.createFamilyMember);
+
 // Get a family tree
 router.get('/familytrees/:familyTreeId', familytreeController.getFamilyTree);
 
