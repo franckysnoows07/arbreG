@@ -1,9 +1,12 @@
-import  { useState } from "react";
+import  { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import  useForm1  from "../hooks/useForm1";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const FormulaireInscription = () => {
   //const navigate = useNavigate();
+  const {state}=useAuthContext();
+  const user = state.user.user;
   const [sname, setSname]= useState('')
   const [fname, setFname]= useState('')
   const [fSname, setFsname]= useState('')
@@ -28,6 +31,14 @@ const FormulaireInscription = () => {
   // const [userId, setUserid]= useState()
   const [profession, setProfession]= useState('')
   const {createperson, error, isLoading} = useForm1()
+
+  useEffect(() => {
+    if (user) {
+      setSname(user.sName || '');
+      setFname(user.fName || '');
+      setEmail(user.email || '');
+    }
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault()

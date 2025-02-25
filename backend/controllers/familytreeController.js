@@ -120,25 +120,31 @@ const createFamilyMember = async (req, res) =>{
             gender: " "
         })
         await person.save();
+    
+        // Create and save the father if values exist
+        
+        const person1 = new Person({
+                sname: npere,
+                fname: ppere,
+                child: 'Oui',
+                createdBy: req.user._id,
+                nationality: " ",
+                gender: " "
+            });
+            await person1.save();
+        
 
-        let person1
-        if (npere){
-             person1 = new Person({
-            sname: npere,
-            fname: ppere,
-            child: 'Oui'
-            })
-            await person1.save()
-        }
-        let person2
-        if (nmere){
-            person2 = new Person({
+        // Create and save the mother if values exist
+        const person2 = new Person({
                 sname: nmere,
                 fname: pmere,
-                child: 'Oui'
-            })
-            await person2.save()
-        }
+                child: 'Oui',
+                createdBy: req.user._id,
+                nationality: " ",
+                gender: " "
+            });
+            await person2.save();
+        
 
         const familyMember = new FamilyMember({
             person: person._id,

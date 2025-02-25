@@ -39,14 +39,10 @@ const FamilyTreeForm = () => {
       console.log('Family tree ID:', familyTreeId);
       try {
         const result = await createPerson1(name, surname, relation, ppere, npere, pmere, nmere);
-        let result1
-        if(npere  && ppere){
-          result1 = await createPere(ppere, npere);
-        }
-        let result2
-        if(nmere && pmere){
-          result2 = await createMere(pmere, nmere);
-        }
+        
+        const result1 = await createPere(ppere, npere);
+        
+        const result2 = await createMere(pmere, nmere);
         
         const result3= await addMembers(name, surname, relation, familyTreeId);
         if(result){
@@ -71,21 +67,21 @@ const FamilyTreeForm = () => {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value} = e.target;
-    if (name === 'npere') {
-      setFsname(value)
-    }
-    if(name === 'ppere'){
-      setFfname(value)
-    }
-    if(name === 'nmere'){
-      setMsname(value)
-    }
-    if(name === 'pmere'){
-      setMfname(value)
-  }
-}
+  // const handleChange = (e) => {
+  //   const { name, value} = e.target;
+  //   if (name === 'npere') {
+  //     setFsname(value)
+  //   }
+  //   if(name === 'ppere'){
+  //     setFfname(value)
+  //   }
+  //   if(name === 'nmere'){
+  //     setMsname(value)
+  //   }
+  //   if(name === 'pmere'){
+  //     setMfname(value)
+  // }
+// }
   const handleEtatChange = (e, parent) =>{
     const { value } = e.target;
     if(parent ==='relation'){
@@ -198,21 +194,15 @@ const FamilyTreeForm = () => {
                 <option value="cousin">Cousin(e)</option>
               </select>
             </div>
-            <button type="submit" className="bg-[#3D2B1F] text-white px-6 py-2 rounded">
-              Ajouter
-            </button>
-          </div>
-
-          {/* Colonne Droite */}
+            {/* Colonne Droite */}
           {relation === "cousin" && (
             <div className="p-4 border rounded bg-white">
-
             <div className="mb-4">
               <label className="block font-semibold">Nom / Père</label>
               <input 
               name="npere"
               value={npere} 
-              onChange={handleChange}
+              onChange={(e)=>{setFsname(e.target.value)}}
               className="w-full border p-2 rounded bg-white" 
               />
             </div>
@@ -221,7 +211,7 @@ const FamilyTreeForm = () => {
               <input 
               name="ppere"
               value={ppere} 
-              onChange={handleChange}
+              onChange={(e)=>{setFfname(e.target.value)}}
               className="w-full border p-2 rounded bg-white" 
               />
             </div>
@@ -230,7 +220,7 @@ const FamilyTreeForm = () => {
               <input 
               name="nmere" 
               value={nmere} 
-              onChange={handleChange}
+              onChange={(e)=>{setMsname(e.target.value)}}
               className="w-full border p-2 rounded bg-white" 
               />
             </div>
@@ -239,12 +229,20 @@ const FamilyTreeForm = () => {
               <input 
               name="pmere"
               value={pmere}
-              onChange={handleChange}
+              onChange={(e)=>{setMfname(e.target.value)}}
               className="w-full border p-2 rounded bg-white" 
               />
             </div>
           </div>
         )}
+            <button  
+            className="bg-[#3D2B1F] text-white px-6 py-2 rounded"
+            >
+              Ajouter
+            </button>
+          </div>
+
+          
         </div>
       </form>
 

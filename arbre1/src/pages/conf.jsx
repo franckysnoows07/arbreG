@@ -1,6 +1,7 @@
 import { useState } from "react";
 import  useSignup  from "../hooks/useSignup";
 import { useNavigate } from "react-router-dom";
+import  {useLogin}  from "../hooks/useLogin";
 
 const Conf = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ const Conf = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const {signup, error, isLoading} = useSignup()
+  const {login}= useLogin()
   const navigate = useNavigate();
 
   // Validation du formulaire
@@ -27,6 +29,7 @@ const Conf = () => {
 
     const result = await signup(uname, fName, sName, email, password)
     if(result){
+      await login(email, password)
       navigate('/');
     }
   };

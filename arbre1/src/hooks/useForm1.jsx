@@ -9,8 +9,8 @@ const useForm1 = () => {
   const {state}= useAuthContext()
   const user = state.user;
 
-  // console.log('useAuthContext output:', useAuthContext());
-  // console.log('usePersonContext output:', usePersonsContext());
+  console.log('useAuthContext output:', useAuthContext());
+  console.log('usePersonContext output:', usePersonsContext());
   const createperson = async (sname, fname,fSname,fFname,mFname,mSname,fState,mState,gender,profession,dob,dod,pob,nationality,email,ecivil,phone,mdod,fdod,child,nbchild) => {
     setIsLoading(true);
     setError(null);

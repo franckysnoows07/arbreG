@@ -7,6 +7,8 @@ import { AuthContext } from "../context/AuthContext";
 import VisualiserArbre from "./visualiserarbre";
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom'
+import Chatbot from '../components/Chatbot';
+import '../styles/chatbot.css';
 
 
 const SearchTree = () => {
@@ -23,6 +25,10 @@ const SearchTree = () => {
     setSelectedTree(tree);
     navigate(`/seetree/${tree._id}`, { state: { tree } })
   }
+
+  const handleSuggestTree = (suggestedTree) => {
+    setSelectedTree(suggestedTree);
+  };
   
     return (
       <div className="bg-[#F5EDE2]  text-amber-950 p-6">
@@ -90,6 +96,11 @@ const SearchTree = () => {
           <VisualiserArbre tree={selectedTree} />
         </div>
       )}
+
+      {/* Chatbot */}
+      <div className="fixed bottom-4 right-4">
+        <Chatbot onSuggestTree={handleSuggestTree} />
+      </div>
       </div>
     );
   }
