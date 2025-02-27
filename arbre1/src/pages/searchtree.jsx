@@ -29,6 +29,8 @@ const SearchTree = () => {
   const handleSuggestTree = (suggestedTree) => {
     setSelectedTree(suggestedTree);
   };
+
+
   
     return (
       <div className="bg-[#F5EDE2]  text-amber-950 p-6">

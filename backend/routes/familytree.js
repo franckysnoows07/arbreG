@@ -20,4 +20,7 @@ router.get('/surname/:surname', familytreeController.getFamilyTreeBySurname);
 // Add a family member to a family tree
 router.put('/familytrees/:familyTreeId/members/:familyMemberId', familytreeController.addFamilyMember);
 
+//Search for family tree based on provided info
+router.post('/search', familytreeController.searchFamilyTree);
+
 module.exports = router;

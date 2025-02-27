@@ -171,10 +171,31 @@ const createFamilyMember = async (req, res) =>{
     }
 
 }
+const searchFamilyTree = async (req, res) => {
+    const {fatherSurname, fatherName, grandfatherSurname, grandfatherName} = req.body;
+
+    try{
+        const familyTree = await FamilyTree.findOne ({
+            $or:[
+                {'familyMembers.sname': fatherSurname, 'familyMembers.fname': fatherName},
+                {'familyMembers.sname': grandfatherSurname, 'familyMembers.fname': grandfatherName},
+            ],
+        }).populate('familyMembers')
+
+        if (familyTree){
+            res.status(200).json({tree: familyTree})
+        } else {
+            res.status(404).json({error: ' Arbre non trouvé'})
+        }
+    } catch(error){
+        res.status(404).json({error: 'recherche non trouvée'})
+    }
+}
 module.exports = {
     createFamilyTree,
     getFamilyTree,
     addFamilyMember,
     getFamilyTreeBySurname,
-    createFamilyMember
+    createFamilyMember,
+    searchFamilyTree
 };
