@@ -1,11 +1,12 @@
 .chatbot {
-    border: 1px solid #ccc;
+    border: 1px solid #451A03;
     padding: 10px;
-    width: 300px;
-    height: 200px;
+    width: 500px;
+    height: 350px;
     display: flex;
     flex-direction: column;
-    background-color: greenyellow;
+    background-color: #FFF7ED;
+    border-radius: 6px;
   }
   
   .chatbot-messages {
@@ -20,10 +21,16 @@
   .chatbot-input input {
     flex: 1;
     padding: 5px;
+    border-radius: 6px;
+    background-color: #451A03;
   }
   
   .chatbot-input button {
-    padding: 5px;
+    background-color: #451A03;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #F5EDE2;
+    color: #F5EDE2;
   }
   
   .message {
