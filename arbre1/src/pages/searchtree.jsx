@@ -69,22 +69,7 @@ const SearchTree = () => {
         {/* Create New Tree */}
         <div className="bg-white shadow-lg p-6 rounded-lg">
           <h2 className="text-xl font-bold text-[#4B3B2C] mb-4">Créer un nouvel arbre</h2>
-          <form>
-            <label className="block text-sm font-medium text-gray-700">Nom de l’arbre</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-lg bg-white text-gray-900"
-              placeholder="Nom"
-            />
-            <label className="block text-sm font-medium text-gray-700 mt-4">Description</label>
-            <textarea
-              className="w-full p-2 border rounded-lg bg-white text-gray-900"
-              placeholder="Description..."
-            ></textarea>
-            <button className="mt-4 bg-[#4B3B2C] text-white py-2 px-4 rounded-lg w-full">
-              Créer
-            </button>
-          </form>
+          <FamilyForm />
         </div>
       </div>
 
@@ -115,7 +100,7 @@ const SearchTree = () => {
           className="mt-2 p-4 bg-amber-950 text-white rounded-full shadow hover:amber-900 transition"
           onClick={() => setShowChatbot(false)}
         >
-          <i class="fa-solid fa-xmark w-5"></i>
+          <i className="fa-solid fa-xmark w-5"></i>
         </button>
       </div>
     )}
